@@ -72,8 +72,7 @@
                           class: 'gallery__image',
                           loading: media_loading,
                           fetchpriority: media_priority,
-                          alt: gallery_alt,
-                          data-zoom: gallery_zoom
+                          alt: gallery_alt
                       }}
                     {%- else -%}
                       {{
@@ -83,8 +82,7 @@
                           class: 'gallery__image',
                           loading: media_loading,
                           fetchpriority: media_priority,
-                          alt: gallery_alt,
-                          data-zoom: gallery_zoom
+                          alt: gallery_alt
                       }}
                     {%- endif -%}
                   {%- when 'video' -%}
@@ -183,7 +181,7 @@
                       data-option-name="{{ option.name }}"
                       data-option-value="{{ value }}"
                       role="radio"
-                      aria-checked="{{ option.selected_value == value }}"
+                      aria-checked="{% if option.selected_value == value %}true{% else %}false{% endif %}"
                     >
                       {{ value }}
                     </button>

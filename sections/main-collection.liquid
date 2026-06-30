@@ -143,11 +143,13 @@
               id="product-grid"
             >
               {%- for product in collection.products -%}
+                {%- assign card_lazy = true -%}
+                {%- if forloop.index <= 4 -%}{%- assign card_lazy = false -%}{%- endif -%}
                 <li class="product-grid__item">
                   {%- render 'product-card',
                     product: product,
                     show_vendor: section.settings.show_vendor,
-                    lazy: forloop.index > 4
+                    lazy: card_lazy
                   -%}
                 </li>
               {%- endfor -%}
