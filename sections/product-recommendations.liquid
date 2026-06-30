@@ -1,0 +1,49 @@
+{%- if recommendations.performed and recommendations.products_count > 0 -%}
+  <section
+    class="product-recommendations section-padding"
+    aria-label="{{ section.settings.heading }}"
+    data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit={{ section.settings.products_to_show }}"
+  >
+    <div class="container">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="section-heading text-center">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+
+      <ul class="product-grid product-grid--{{ section.settings.products_to_show }}-col" role="list">
+        {%- for rec_product in recommendations.products -%}
+          <li class="product-grid__item">
+            {%- render 'product-card',
+              product: rec_product,
+              show_vendor: false,
+              lazy: true
+            -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Product recommendations",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "You May Also Like"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Number of products",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 4
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,259 @@
+<section class="main-collection" aria-label="{{ collection.title }}">
+
+  {%- comment -%} Collection banner {%- endcomment -%}
+  {%- if collection.image or section.settings.show_collection_description -%}
+    <div class="collection-hero">
+      {%- if collection.image -%}
+        <div class="collection-hero__media">
+          {{
+            collection.image
+            | image_url: width: 1600
+            | image_tag:
+              class: 'collection-hero__image',
+              loading: 'eager',
+              fetchpriority: 'high',
+              alt: collection.image.alt | default: collection.title | escape
+          }}
+          <div class="collection-hero__overlay"></div>
+        </div>
+      {%- endif -%}
+      <div class="collection-hero__content container">
+        <h1 class="collection-hero__title">{{ collection.title }}</h1>
+        {%- if section.settings.show_collection_description and collection.description != blank -%}
+          <div class="collection-hero__desc rte">{{ collection.description }}</div>
+        {%- endif -%}
+      </div>
+    </div>
+  {%- else -%}
+    <div class="collection-title-bar container">
+      <h1 class="collection-title-bar__title">{{ collection.title }}</h1>
+      {%- if section.settings.show_collection_description and collection.description != blank -%}
+        <div class="collection-title-bar__desc rte">{{ collection.description }}</div>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  <div class="container">
+
+    {%- comment -%} Toolbar: count + sort + filter toggle {%- endcomment -%}
+    <div class="collection-toolbar">
+      <p class="collection-toolbar__count">
+        {{ collection.products_count }}
+        {%- if collection.products_count == 1 -%}
+          product
+        {%- else -%}
+          products
+        {%- endif -%}
+      </p>
+
+      <div class="collection-toolbar__right">
+        {%- if section.settings.enable_filtering -%}
+          <button
+            class="collection-toolbar__filter-btn btn btn--secondary btn--sm"
+            aria-controls="collection-filters"
+            aria-expanded="false"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="10" y1="18" x2="14" y2="18"/></svg>
+            Filter
+            {%- if current_tags.size > 0 -%}
+              <span class="filter-count-badge">{{ current_tags.size }}</span>
+            {%- endif -%}
+          </button>
+        {%- endif -%}
+
+        {%- if section.settings.enable_sorting -%}
+          <div class="sort-select-wrap">
+            <label class="sr-only" for="collection-sort">Sort by</label>
+            <select id="collection-sort" class="sort-select" aria-label="Sort products">
+              {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+              {%- for option in collection.sort_options -%}
+                <option
+                  value="{{ option.value }}"
+                  {% if option.value == sort_by %}selected{% endif %}
+                >
+                  {{ option.name }}
+                </option>
+              {%- endfor -%}
+            </select>
+            <svg class="sort-select__icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <div class="collection-layout">
+
+      {%- comment -%} Filter panel {%- endcomment -%}
+      {%- if section.settings.enable_filtering -%}
+        <aside id="collection-filters" class="collection-filters" aria-label="Filters" aria-hidden="true">
+          <div class="collection-filters__header">
+            <h2 class="collection-filters__title">Filters</h2>
+            <button class="collection-filters__close icon-btn" aria-label="Close filters" data-close-filters>
+              {%- render 'icon-close' -%}
+            </button>
+          </div>
+
+          {%- if collection.all_tags.size > 0 -%}
+            <div class="filter-group">
+              <h3 class="filter-group__heading">Tags</h3>
+              <ul class="filter-group__list" role="list">
+                {%- for tag in collection.all_tags -%}
+                  <li class="filter-group__item">
+                    {%- if current_tags contains tag -%}
+                      <a
+                        href="{{ collection.url }}/{{ current_tags | join: '+' | replace: tag, '' | remove_first: '+' | remove: '++' | url_encode }}"
+                        class="filter-option filter-option--active"
+                        aria-pressed="true"
+                      >
+                        <span class="filter-option__check" aria-hidden="true">✓</span>
+                        {{ tag }}
+                      </a>
+                    {%- else -%}
+                      <a
+                        href="{{ collection.url }}/{{ current_tags | push: tag | join: '+' | url_encode }}"
+                        class="filter-option"
+                        aria-pressed="false"
+                      >
+                        {{ tag }}
+                      </a>
+                    {%- endif -%}
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </div>
+          {%- endif -%}
+
+          {%- if current_tags.size > 0 -%}
+            <a href="{{ collection.url }}" class="btn btn--secondary btn--sm collection-filters__clear">
+              Clear all filters
+            </a>
+          {%- endif -%}
+        </aside>
+      {%- endif -%}
+
+      {%- comment -%} Product grid {%- endcomment -%}
+      <div class="collection-grid-wrap">
+        {%- paginate collection.products by section.settings.products_per_page -%}
+
+          {%- if collection.products.size > 0 -%}
+            <ul
+              class="product-grid product-grid--{{ section.settings.columns_desktop }}-col"
+              role="list"
+              id="product-grid"
+            >
+              {%- for product in collection.products -%}
+                <li class="product-grid__item">
+                  {%- render 'product-card',
+                    product: product,
+                    show_vendor: section.settings.show_vendor,
+                    lazy: forloop.index > 4
+                  -%}
+                </li>
+              {%- endfor -%}
+            </ul>
+
+            {%- comment -%} Pagination {%- endcomment -%}
+            {%- if paginate.pages > 1 -%}
+              <nav class="pagination" aria-label="Pagination">
+                {%- if paginate.previous -%}
+                  <a href="{{ paginate.previous.url }}" class="pagination__btn btn btn--secondary btn--sm" aria-label="Previous page">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+                    Previous
+                  </a>
+                {%- endif -%}
+
+                <div class="pagination__pages">
+                  {%- for part in paginate.parts -%}
+                    {%- if part.is_link -%}
+                      <a href="{{ part.url }}" class="pagination__page">{{ part.title }}</a>
+                    {%- elsif part.title == paginate.current_page -%}
+                      <span class="pagination__page pagination__page--current" aria-current="page">{{ part.title }}</span>
+                    {%- else -%}
+                      <span class="pagination__ellipsis">{{ part.title }}</span>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </div>
+
+                {%- if paginate.next -%}
+                  <a href="{{ paginate.next.url }}" class="pagination__btn btn btn--secondary btn--sm" aria-label="Next page">
+                    Next
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+                  </a>
+                {%- endif -%}
+              </nav>
+            {%- endif -%}
+
+          {%- else -%}
+            <div class="collection-empty">
+              <p class="collection-empty__text">No products found.</p>
+              {%- if current_tags.size > 0 -%}
+                <a href="{{ collection.url }}" class="btn btn--primary">Clear filters</a>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+
+        {%- endpaginate -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_collection_description",
+      "label": "Show collection description",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "label": "Products per page",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Columns on desktop",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "columns_mobile",
+      "label": "Columns on mobile",
+      "min": 1,
+      "max": 2,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Show vendor on product cards",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_filtering",
+      "label": "Enable tag filtering",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sorting",
+      "label": "Enable sorting",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

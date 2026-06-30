@@ -1,0 +1,106 @@
+<section class="hero{% if section.settings.full_height %} hero--full{% endif %}" aria-label="{{ section.settings.heading }}">
+  <div class="hero__media">
+    {%- if section.settings.image != blank -%}
+      {{
+        section.settings.image
+        | image_url: width: 1920
+        | image_tag:
+          class: 'hero__image',
+          loading: 'eager',
+          fetchpriority: 'high',
+          alt: section.settings.image.alt | escape
+      }}
+    {%- else -%}
+      <div class="hero__image hero__image--placeholder">
+        {{ 'lifestyle-1' | placeholder_svg_tag: 'hero__placeholder-svg' }}
+      </div>
+    {%- endif -%}
+    <div class="hero__overlay" style="--hero-overlay-opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }}"></div>
+  </div>
+
+  <div class="hero__content container">
+    <div class="hero__content-inner">
+      {%- if section.settings.subheading != blank -%}
+        <p class="hero__subheading">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.heading != blank -%}
+        <h1 class="hero__heading">{{ section.settings.heading }}</h1>
+      {%- endif -%}
+
+      {%- if section.settings.text != blank -%}
+        <p class="hero__text">{{ section.settings.text }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.button_label != blank -%}
+        <a href="{{ section.settings.button_link }}" class="btn btn--primary hero__btn">
+          {{ section.settings.button_label }}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero banner",
+  "tag": "section",
+  "presets": [
+    {
+      "name": "Hero banner"
+    }
+  ],
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Background image"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay opacity",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "default": 35
+    },
+    {
+      "type": "checkbox",
+      "id": "full_height",
+      "label": "Full viewport height",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Handcrafted for every prayer"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Count Every Rakaat with Intention"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Body text",
+      "default": "A beautifully crafted prayer counter designed to help you stay present and mindful in every moment of worship."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    }
+  ]
+}
+{% endschema %}

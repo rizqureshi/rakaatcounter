@@ -1,0 +1,159 @@
+{%- assign product = all_products[section.settings.product] -%}
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+
+<section class="featured-product section-padding" aria-label="{{ 'products.featured' | t }}">
+  <div class="container">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="section-heading text-center">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+
+    {%- if product != blank -%}
+      <div class="featured-product__grid">
+
+        {%- comment -%} Media gallery {%- endcomment -%}
+        <div class="featured-product__media">
+          <div class="featured-product__main-image">
+            {%- if product.featured_media -%}
+              {{
+                product.featured_media
+                | image_url: width: 800
+                | image_tag:
+                  id: 'featured-product-main-image',
+                  class: 'featured-product__image',
+                  alt: product.featured_media.alt | escape,
+                  loading: 'lazy'
+              }}
+            {%- endif -%}
+          </div>
+
+          {%- if product.images.size > 1 -%}
+            <div class="featured-product__thumbnails" role="list">
+              {%- for image in product.images limit: 5 -%}
+                <button
+                  class="featured-product__thumb{% if forloop.first %} active{% endif %}"
+                  data-image-url="{{ image | image_url: width: 800 }}"
+                  aria-label="{{ image.alt | default: product.title }}"
+                  role="listitem"
+                >
+                  {{ image | image_url: width: 100 | image_tag: loading: 'lazy', alt: image.alt }}
+                </button>
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+        </div>
+
+        {%- comment -%} Product info {%- endcomment -%}
+        <div class="featured-product__info">
+          <p class="featured-product__vendor">{{ product.vendor }}</p>
+          <h2 class="featured-product__title">{{ product.title }}</h2>
+
+          <div class="featured-product__price" id="featured-product-price">
+            {%- if current_variant.compare_at_price > current_variant.price -%}
+              <span class="price price--sale">{{ current_variant.price | money }}</span>
+              <span class="price price--compare">{{ current_variant.compare_at_price | money }}</span>
+              <span class="badge badge--sale">{{ 'products.on_sale' | t }}</span>
+            {%- else -%}
+              <span class="price">{{ current_variant.price | money }}</span>
+            {%- endif -%}
+          </div>
+
+          {%- if product.description != blank -%}
+            <div class="featured-product__description rte">
+              {{ product.description }}
+            </div>
+          {%- endif -%}
+
+          {%- unless product.has_only_default_variant -%}
+            {%- for option in product.options_with_values -%}
+              <div class="product-option">
+                <label class="product-option__label" for="option-{{ option.name | handle }}">
+                  {{ option.name }}
+                </label>
+                <div class="product-option__values">
+                  {%- for value in option.values -%}
+                    <button
+                      class="product-option__value{% if option.selected_value == value %} selected{% endif %}"
+                      data-option-name="{{ option.name }}"
+                      data-option-value="{{ value }}"
+                    >
+                      {{ value }}
+                    </button>
+                  {%- endfor -%}
+                </div>
+              </div>
+            {%- endfor -%}
+          {%- endunless -%}
+
+          <form action="{{ routes.cart_add_url }}" method="post" class="featured-product__form" id="featured-product-form">
+            <input type="hidden" name="id" id="featured-product-variant-id" value="{{ current_variant.id }}">
+            <input type="hidden" name="quantity" value="1">
+
+            <button
+              type="submit"
+              class="btn btn--primary btn--full featured-product__add-btn"
+              {% unless current_variant.available %}disabled{% endunless %}
+            >
+              {%- if current_variant.available -%}
+                {{ 'products.add_to_cart' | t }}
+              {%- else -%}
+                {{ 'products.sold_out' | t }}
+              {%- endif -%}
+            </button>
+          </form>
+
+          {%- if section.settings.show_trust_badges -%}
+            <div class="featured-product__trust">
+              <div class="trust-badge">
+                {%- render 'icon-shield' -%}
+                <span>{{ 'products.secure_checkout' | t }}</span>
+              </div>
+              <div class="trust-badge">
+                {%- render 'icon-truck' -%}
+                <span>{{ 'products.free_shipping_threshold' | t }}</span>
+              </div>
+              <div class="trust-badge">
+                {%- render 'icon-return' -%}
+                <span>{{ 'products.returns' | t }}</span>
+              </div>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- else -%}
+      <div class="featured-product__empty">
+        <p>{{ 'products.select_product' | t }}</p>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured product",
+  "tag": "section",
+  "presets": [
+    {
+      "name": "Featured product"
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section heading",
+      "default": "The Rakaat Counter"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_trust_badges",
+      "label": "Show trust badges",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

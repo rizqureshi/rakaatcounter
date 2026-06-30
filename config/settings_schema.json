@@ -1,0 +1,161 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Rakaat Counter",
+    "theme_version": "1.0.0",
+    "theme_author": "Rakaat Counter",
+    "theme_documentation_url": "",
+    "theme_support_url": ""
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color_primary",
+        "label": "Primary color",
+        "default": "#2D5016"
+      },
+      {
+        "type": "color",
+        "id": "color_accent",
+        "label": "Accent color (gold)",
+        "default": "#C9A84C"
+      },
+      {
+        "type": "color",
+        "id": "color_background",
+        "label": "Page background",
+        "default": "#FAF7F2"
+      },
+      {
+        "type": "color",
+        "id": "color_text",
+        "label": "Body text",
+        "default": "#2C1A0E"
+      },
+      {
+        "type": "color",
+        "id": "color_text_secondary",
+        "label": "Secondary text",
+        "default": "#6B5744"
+      },
+      {
+        "type": "color",
+        "id": "color_border",
+        "label": "Border color",
+        "default": "#E8DDD0"
+      },
+      {
+        "type": "color",
+        "id": "color_button_text",
+        "label": "Button text color",
+        "default": "#FAF7F2"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "select",
+        "id": "heading_font",
+        "label": "Heading font",
+        "options": [
+          { "value": "'Playfair Display', Georgia, serif", "label": "Playfair Display (Elegant)" },
+          { "value": "Georgia, serif", "label": "Georgia (Classic)" }
+        ],
+        "default": "'Playfair Display', Georgia, serif"
+      },
+      {
+        "type": "select",
+        "id": "body_font",
+        "label": "Body font",
+        "options": [
+          { "value": "'DM Sans', sans-serif", "label": "DM Sans (Modern)" },
+          { "value": "system-ui, sans-serif", "label": "System (Default)" }
+        ],
+        "default": "'DM Sans', sans-serif"
+      },
+      {
+        "type": "range",
+        "id": "body_font_size",
+        "label": "Base font size (px)",
+        "min": 14,
+        "max": 18,
+        "step": 1,
+        "default": 16
+      }
+    ]
+  },
+  {
+    "name": "Header",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo image"
+      },
+      {
+        "type": "range",
+        "id": "logo_width",
+        "label": "Logo width (px)",
+        "min": 80,
+        "max": 300,
+        "step": 10,
+        "default": 160
+      },
+      {
+        "type": "checkbox",
+        "id": "sticky_header",
+        "label": "Enable sticky header",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Favicon",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon image"
+      }
+    ]
+  },
+  {
+    "name": "Cart",
+    "settings": [
+      {
+        "type": "select",
+        "id": "cart_type",
+        "label": "Cart type",
+        "options": [
+          { "value": "drawer", "label": "Drawer (slide-in)" },
+          { "value": "page", "label": "Cart page" }
+        ],
+        "default": "drawer"
+      }
+    ]
+  },
+  {
+    "name": "Social media",
+    "settings": [
+      {
+        "type": "url",
+        "id": "social_instagram",
+        "label": "Instagram URL"
+      },
+      {
+        "type": "url",
+        "id": "social_facebook",
+        "label": "Facebook URL"
+      },
+      {
+        "type": "url",
+        "id": "social_tiktok",
+        "label": "TikTok URL"
+      }
+    ]
+  }
+]

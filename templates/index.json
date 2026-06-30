@@ -1,0 +1,107 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "subheading": "Handcrafted for every prayer",
+        "heading": "Count Every Rakaat with Intention",
+        "text": "A beautifully crafted prayer counter designed to help you stay present and mindful in every moment of worship.",
+        "button_label": "Shop Now",
+        "overlay_opacity": 35,
+        "full_height": true
+      }
+    },
+    "featured-product": {
+      "type": "featured-product",
+      "settings": {
+        "heading": "The Rakaat Counter",
+        "show_trust_badges": true
+      }
+    },
+    "image-with-text": {
+      "type": "image-with-text",
+      "blocks": {
+        "feature-1": {
+          "type": "feature",
+          "settings": {
+            "icon": "✦",
+            "heading": "Precision Crafted",
+            "text": "Every click is satisfying and accurate, keeping you focused throughout salah."
+          }
+        },
+        "feature-2": {
+          "type": "feature",
+          "settings": {
+            "icon": "✦",
+            "heading": "Durable Materials",
+            "text": "Built to last a lifetime of daily prayer use."
+          }
+        },
+        "feature-3": {
+          "type": "feature",
+          "settings": {
+            "icon": "✦",
+            "heading": "Mindful Design",
+            "text": "Thoughtfully designed so nothing distracts you from your connection with Allah."
+          }
+        }
+      },
+      "block_order": ["feature-1", "feature-2", "feature-3"],
+      "settings": {
+        "image_position": "right",
+        "subheading": "Why Rakaat Counter?",
+        "heading": "Designed for Mindful Worship",
+        "text": "<p>Every detail of the Rakaat Counter has been carefully considered to enhance your prayer experience without distraction.</p>"
+      }
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "blocks": {
+        "testimonial-1": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "This rakaat counter has completely transformed my prayer experience. The quality is exceptional and the click is so satisfying. I no longer lose count mid-salah.",
+            "author_name": "Ibrahim A.",
+            "author_location": "London, UK"
+          }
+        },
+        "testimonial-2": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "Beautiful craftsmanship. I bought one for myself and gifted two to family members. Everyone loves it. Worth every penny.",
+            "author_name": "Fatima K.",
+            "author_location": "Toronto, CA"
+          }
+        },
+        "testimonial-3": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "Simple, elegant, and exactly what I needed. The feel in the hand is perfect — it never slips during sujood.",
+            "author_name": "Yusuf M.",
+            "author_location": "Dubai, UAE"
+          }
+        }
+      },
+      "block_order": ["testimonial-1", "testimonial-2", "testimonial-3"],
+      "settings": {
+        "heading": "Loved by the Community",
+        "subheading": "Trusted by thousands of Muslims around the world"
+      }
+    },
+    "rich-text": {
+      "type": "rich-text",
+      "settings": {
+        "alignment": "center",
+        "subheading": "Our Promise",
+        "heading": "Made with Intention, Delivered with Care",
+        "text": "<p>Every Rakaat Counter is thoughtfully made and shipped directly to your door. We stand behind every product with a 30-day return policy and lifetime quality guarantee.</p>",
+        "button_label": "Shop the Collection",
+        "button_style": "accent"
+      }
+    }
+  },
+  "order": ["hero", "featured-product", "image-with-text", "testimonials", "rich-text"]
+}

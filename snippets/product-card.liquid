@@ -1,0 +1,79 @@
+{%- comment -%}
+  Renders a product card.
+  Accepts:
+  - product: {Object} Product object (required)
+  - show_vendor: {Boolean} Show vendor name
+  - lazy: {Boolean} Lazy load image
+{%- endcomment -%}
+
+{%- assign lazy = lazy | default: true -%}
+
+<article class="product-card" aria-label="{{ product.title }}">
+  <a href="{{ product.url }}" class="product-card__link" tabindex="-1" aria-hidden="true">
+    <div class="product-card__media">
+      {%- if product.featured_media -%}
+        {{
+          product.featured_media
+          | image_url: width: 600
+          | image_tag:
+            class: 'product-card__image',
+            loading: lazy | ternary: 'lazy', 'eager',
+            alt: product.featured_media.alt | default: product.title | escape
+        }}
+        {%- if product.images[1] -%}
+          {{
+            product.images[1]
+            | image_url: width: 600
+            | image_tag:
+              class: 'product-card__image product-card__image--hover',
+              loading: 'lazy',
+              alt: product.images[1].alt | default: product.title | escape
+          }}
+        {%- endif -%}
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag: 'product-card__image product-card__image--placeholder' }}
+      {%- endif -%}
+
+      {%- if product.compare_at_price > product.price -%}
+        <span class="product-card__badge badge badge--sale">{{ 'products.on_sale' | t }}</span>
+      {%- elsif product.available == false -%}
+        <span class="product-card__badge badge badge--sold-out">{{ 'products.sold_out' | t }}</span>
+      {%- endif -%}
+
+      <div class="product-card__actions">
+        {%- unless product.has_only_default_variant -%}
+          <a href="{{ product.url }}" class="btn btn--sm btn--secondary">{{ 'products.view_options' | t }}</a>
+        {%- else -%}
+          <button
+            class="btn btn--sm btn--secondary product-card__add-btn"
+            data-product-id="{{ product.variants.first.id }}"
+            aria-label="{{ 'products.add_to_cart' | t }} - {{ product.title }}"
+          >
+            {{ 'products.add_to_cart' | t }}
+          </button>
+        {%- endunless -%}
+      </div>
+    </div>
+  </a>
+
+  <div class="product-card__info">
+    {%- if show_vendor and product.vendor != blank -%}
+      <p class="product-card__vendor">{{ product.vendor }}</p>
+    {%- endif -%}
+
+    <h3 class="product-card__title">
+      <a href="{{ product.url }}">{{ product.title }}</a>
+    </h3>
+
+    <div class="product-card__price">
+      {%- if product.price_varies -%}
+        <span class="price">{{ 'products.from_price' | t: price: product.price_min | money }}</span>
+      {%- elsif product.compare_at_price > product.price -%}
+        <span class="price price--sale">{{ product.price | money }}</span>
+        <span class="price price--compare">{{ product.compare_at_price | money }}</span>
+      {%- else -%}
+        <span class="price">{{ product.price | money }}</span>
+      {%- endif -%}
+    </div>
+  </div>
+</article>

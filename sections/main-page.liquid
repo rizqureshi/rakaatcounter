@@ -1,0 +1,18 @@
+<section class="main-page section-padding" aria-label="{{ page.title }}">
+  <div class="container">
+    <div class="main-page__inner">
+      <h1 class="main-page__title">{{ page.title }}</h1>
+      <div class="main-page__content rte">
+        {{ page.content }}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Page",
+  "tag": "section",
+  "settings": []
+}
+{% endschema %}

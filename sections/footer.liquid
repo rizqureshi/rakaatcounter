@@ -1,0 +1,167 @@
+<footer class="footer" role="contentinfo">
+  <div class="footer__geometric" aria-hidden="true">
+    {%- render 'icon-geometric-pattern' -%}
+  </div>
+
+  <div class="container">
+    <div class="footer__grid">
+
+      {%- comment -%} Brand column {%- endcomment -%}
+      <div class="footer__brand">
+        {%- if settings.logo != blank -%}
+          {{
+            settings.logo
+            | image_url: width: 120
+            | image_tag: class: 'footer__logo', alt: shop.name, loading: 'lazy'
+          }}
+        {%- else -%}
+          <span class="footer__logo-text">{{ shop.name }}</span>
+        {%- endif -%}
+
+        {%- if section.settings.tagline != blank -%}
+          <p class="footer__tagline">{{ section.settings.tagline }}</p>
+        {%- endif -%}
+
+        <div class="footer__social">
+          {%- if settings.social_instagram != blank -%}
+            <a href="{{ settings.social_instagram }}" class="footer__social-link" aria-label="Instagram" target="_blank" rel="noopener">
+              {%- render 'icon-instagram' -%}
+            </a>
+          {%- endif -%}
+          {%- if settings.social_facebook != blank -%}
+            <a href="{{ settings.social_facebook }}" class="footer__social-link" aria-label="Facebook" target="_blank" rel="noopener">
+              {%- render 'icon-facebook' -%}
+            </a>
+          {%- endif -%}
+          {%- if settings.social_tiktok != blank -%}
+            <a href="{{ settings.social_tiktok }}" class="footer__social-link" aria-label="TikTok" target="_blank" rel="noopener">
+              {%- render 'icon-tiktok' -%}
+            </a>
+          {%- endif -%}
+        </div>
+      </div>
+
+      {%- comment -%} Navigation columns {%- endcomment -%}
+      {%- for i in (1..2) -%}
+        {%- assign menu_id = 'menu_' | append: i -%}
+        {%- assign heading_id = 'menu_heading_' | append: i -%}
+        {%- if section.settings[menu_id] != blank -%}
+          <div class="footer__nav-col">
+            {%- if section.settings[heading_id] != blank -%}
+              <h3 class="footer__nav-heading">{{ section.settings[heading_id] }}</h3>
+            {%- endif -%}
+            <ul class="footer__nav-list" role="list">
+              {%- for link in linklists[section.settings[menu_id]].links -%}
+                <li><a href="{{ link.url }}" class="footer__nav-link">{{ link.title }}</a></li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- comment -%} Newsletter column {%- endcomment -%}
+      {%- if section.settings.show_newsletter -%}
+        <div class="footer__newsletter">
+          <h3 class="footer__nav-heading">{{ section.settings.newsletter_heading }}</h3>
+          <p class="footer__newsletter-text">{{ section.settings.newsletter_text }}</p>
+          {% form 'customer', class: 'footer__newsletter-form' %}
+            {%- if form.posted_successfully? -%}
+              <p class="footer__newsletter-success">{{ 'newsletter.success' | t }}</p>
+            {%- else -%}
+              <div class="footer__newsletter-input-wrap">
+                <input
+                  type="email"
+                  name="contact[email]"
+                  class="footer__newsletter-input"
+                  placeholder="{{ 'newsletter.email_placeholder' | t }}"
+                  required
+                  aria-label="{{ 'newsletter.email_placeholder' | t }}"
+                >
+                <input type="hidden" name="contact[tags]" value="newsletter">
+                <button type="submit" class="btn btn--accent footer__newsletter-btn">
+                  {{ 'newsletter.subscribe' | t }}
+                </button>
+              </div>
+              {%- if form.errors -%}
+                <p class="footer__newsletter-error">{{ form.errors | default_errors }}</p>
+              {%- endif -%}
+            {%- endif -%}
+          {% endform %}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="footer__bottom">
+      <p class="footer__copyright">
+        &copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. {{ 'footer.all_rights_reserved' | t }}
+      </p>
+      <div class="footer__payment-icons">
+        {{ shop.enabled_payment_types | payment_type_svg_tag: class: 'footer__payment-icon' }}
+      </div>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "text",
+      "id": "tagline",
+      "label": "Brand tagline",
+      "default": "Crafted for mindful worship"
+    },
+    {
+      "type": "header",
+      "content": "Navigation menus"
+    },
+    {
+      "type": "text",
+      "id": "menu_heading_1",
+      "label": "Menu 1 heading",
+      "default": "Shop"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_1",
+      "label": "Menu 1",
+      "default": "main-menu"
+    },
+    {
+      "type": "text",
+      "id": "menu_heading_2",
+      "label": "Menu 2 heading",
+      "default": "Help"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_2",
+      "label": "Menu 2",
+      "default": "footer"
+    },
+    {
+      "type": "header",
+      "content": "Newsletter"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_newsletter",
+      "label": "Show newsletter signup",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "newsletter_heading",
+      "label": "Newsletter heading",
+      "default": "Stay Connected"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_text",
+      "label": "Newsletter subtext",
+      "default": "Join our community for updates, duas, and exclusive offers."
+    }
+  ]
+}
+{% endschema %}

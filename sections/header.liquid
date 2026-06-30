@@ -1,0 +1,116 @@
+<header class="header{% if settings.sticky_header %} header--sticky{% endif %}" role="banner">
+  <div class="header__inner container">
+
+    {%- comment -%} Mobile menu toggle {%- endcomment -%}
+    <button class="header__menu-toggle" aria-controls="mobile-nav" aria-expanded="false" aria-label="{{ 'accessibility.menu' | t }}">
+      <span class="header__menu-icon"></span>
+    </button>
+
+    {%- comment -%} Logo {%- endcomment -%}
+    <div class="header__logo">
+      <a href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
+        {%- if settings.logo != blank -%}
+          {{
+            settings.logo
+            | image_url: width: settings.logo_width
+            | image_tag:
+              class: 'header__logo-image',
+              alt: shop.name,
+              width: settings.logo_width,
+              height: settings.logo_width | divided_by: settings.logo.aspect_ratio
+          }}
+        {%- else -%}
+          <span class="header__logo-text">{{ shop.name }}</span>
+        {%- endif -%}
+      </a>
+    </div>
+
+    {%- comment -%} Desktop navigation {%- endcomment -%}
+    <nav class="header__nav" role="navigation" aria-label="{{ 'accessibility.main_menu' | t }}">
+      {%- for link in linklists[section.settings.menu].links -%}
+        {%- if link.links != blank -%}
+          <div class="header__nav-item header__nav-item--dropdown">
+            <button class="header__nav-link header__nav-link--dropdown-toggle" aria-expanded="false">
+              {{ link.title }}
+              <svg width="10" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true">
+                <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </button>
+            <ul class="header__dropdown" role="list">
+              {%- for child_link in link.links -%}
+                <li>
+                  <a href="{{ child_link.url }}" class="header__dropdown-link{% if child_link.active %} active{% endif %}">
+                    {{ child_link.title }}
+                  </a>
+                </li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- else -%}
+          <a href="{{ link.url }}" class="header__nav-link{% if link.active %} active{% endif %}">
+            {{ link.title }}
+          </a>
+        {%- endif -%}
+      {%- endfor -%}
+    </nav>
+
+    {%- comment -%} Header actions {%- endcomment -%}
+    <div class="header__actions">
+      <a href="{{ routes.search_url }}" class="header__icon-btn" aria-label="{{ 'accessibility.search' | t }}">
+        {%- render 'icon-search' -%}
+      </a>
+
+      <a href="{{ routes.account_url }}" class="header__icon-btn" aria-label="{{ 'accessibility.account' | t }}">
+        {%- render 'icon-account' -%}
+      </a>
+
+      <button
+        class="header__icon-btn header__cart-btn"
+        aria-label="{{ 'accessibility.cart' | t }} ({{ cart.item_count }})"
+        aria-controls="cart-drawer"
+        aria-expanded="false"
+      >
+        {%- render 'icon-cart' -%}
+        {%- if cart.item_count > 0 -%}
+          <span class="header__cart-count" aria-hidden="true">{{ cart.item_count }}</span>
+        {%- endif -%}
+      </button>
+    </div>
+  </div>
+
+  {%- comment -%} Mobile navigation {%- endcomment -%}
+  <nav id="mobile-nav" class="mobile-nav" aria-label="{{ 'accessibility.main_menu' | t }}" aria-hidden="true">
+    <ul class="mobile-nav__list" role="list">
+      {%- for link in linklists[section.settings.menu].links -%}
+        <li class="mobile-nav__item">
+          <a href="{{ link.url }}" class="mobile-nav__link{% if link.active %} active{% endif %}">
+            {{ link.title }}
+          </a>
+          {%- if link.links != blank -%}
+            <ul class="mobile-nav__sub" role="list">
+              {%- for child_link in link.links -%}
+                <li>
+                  <a href="{{ child_link.url }}" class="mobile-nav__sub-link">{{ child_link.title }}</a>
+                </li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+  </nav>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "main-menu"
+    }
+  ]
+}
+{% endschema %}

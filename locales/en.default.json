@@ -1,0 +1,48 @@
+{
+  "general": {
+    "password_page": {
+      "opening_soon": "Opening Soon"
+    }
+  },
+  "accessibility": {
+    "skip_to_content": "Skip to content",
+    "menu": "Menu",
+    "main_menu": "Main menu",
+    "search": "Search",
+    "account": "Account",
+    "cart": "Cart",
+    "close": "Close"
+  },
+  "products": {
+    "add_to_cart": "Add to Cart",
+    "sold_out": "Sold Out",
+    "on_sale": "Sale",
+    "view_options": "View Options",
+    "from_price": "From {{ price }}",
+    "secure_checkout": "Secure Checkout",
+    "free_shipping_threshold": "Free Shipping over $75",
+    "returns": "30-Day Returns",
+    "featured": "Featured product",
+    "select_product": "Select a product in the theme editor"
+  },
+  "cart": {
+    "title": "Your Cart",
+    "empty": "Your cart is empty",
+    "subtotal": "Subtotal",
+    "taxes_and_shipping": "Taxes and shipping calculated at checkout",
+    "checkout": "Checkout",
+    "view_cart": "View Cart",
+    "continue_shopping": "Continue Shopping",
+    "remove": "Remove",
+    "decrease_quantity": "Decrease quantity",
+    "increase_quantity": "Increase quantity"
+  },
+  "newsletter": {
+    "email_placeholder": "Your email address",
+    "subscribe": "Subscribe",
+    "success": "Thank you for subscribing!"
+  },
+  "footer": {
+    "all_rights_reserved": "All rights reserved."
+  }
+}

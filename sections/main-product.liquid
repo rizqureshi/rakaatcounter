@@ -1,0 +1,345 @@
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+{%- assign first_3d_model = product.media | where: 'media_type', 'model' | first -%}
+
+<section class="main-product section-padding" aria-label="{{ product.title }}">
+  <div class="container">
+
+    {%- comment -%} Breadcrumb {%- endcomment -%}
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <ol class="breadcrumb__list" role="list">
+        <li><a href="{{ routes.root_url }}" class="breadcrumb__link">Home</a></li>
+        {%- if collection -%}
+          <li><span class="breadcrumb__sep" aria-hidden="true">/</span></li>
+          <li><a href="{{ collection.url }}" class="breadcrumb__link">{{ collection.title }}</a></li>
+        {%- endif -%}
+        <li><span class="breadcrumb__sep" aria-hidden="true">/</span></li>
+        <li><span class="breadcrumb__current" aria-current="page">{{ product.title }}</span></li>
+      </ol>
+    </nav>
+
+    <div class="main-product__grid">
+
+      {%- comment -%} ── Media Gallery ── {%- endcomment -%}
+      <div class="main-product__gallery" id="product-gallery">
+
+        {%- comment -%} Thumbnails (left rail on desktop, strip on mobile) {%- endcomment -%}
+        {%- if product.media.size > 1 -%}
+          <div class="gallery__thumbs" role="list" aria-label="Product images">
+            {%- for media in product.media limit: 8 -%}
+              <button
+                class="gallery__thumb{% if forloop.first %} active{% endif %}"
+                data-media-id="{{ media.id }}"
+                data-media-url="{{ media | image_url: width: 1200 }}"
+                role="listitem"
+                aria-label="{{ media.alt | default: product.title | escape }} {{ forloop.index }} of {{ product.media.size }}"
+                aria-pressed="{{ forloop.first }}"
+              >
+                {{
+                  media.preview_image
+                  | image_url: width: 120
+                  | image_tag: loading: 'lazy', alt: media.alt | default: product.title | escape
+                }}
+              </button>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+
+        {%- comment -%} Main image {%- endcomment -%}
+        <div class="gallery__main">
+          <div class="gallery__main-image-wrap">
+            {%- for media in product.media -%}
+              <div
+                class="gallery__media{% if forloop.first %} active{% endif %}"
+                data-media-id="{{ media.id }}"
+              >
+                {%- case media.media_type -%}
+                  {%- when 'image' -%}
+                    {{
+                      media
+                      | image_url: width: 1200
+                      | image_tag:
+                        id: forloop.first | then: 'product-main-image' | else: nil,
+                        class: 'gallery__image',
+                        loading: forloop.first | then: 'eager' | else: 'lazy',
+                        fetchpriority: forloop.first | then: 'high' | else: 'auto',
+                        alt: media.alt | default: product.title | escape,
+                        data-zoom: media | image_url: width: 2400
+                    }}
+                  {%- when 'video' -%}
+                    {{
+                      media
+                      | video_tag:
+                        class: 'gallery__video',
+                        autoplay: false,
+                        loop: false,
+                        muted: false,
+                        controls: true
+                    }}
+                  {%- when 'external_video' -%}
+                    <div class="gallery__external-video">
+                      {{ media | external_video_tag: class: 'gallery__iframe' }}
+                    </div>
+                {%- endcase -%}
+              </div>
+            {%- endfor -%}
+          </div>
+
+          {%- comment -%} Sale badge {%- endcomment -%}
+          {%- if current_variant.compare_at_price > current_variant.price -%}
+            <span class="gallery__badge badge badge--sale">{{ 'products.on_sale' | t }}</span>
+          {%- endif -%}
+
+          {%- comment -%} Prev / next arrows (only if >1 media) {%- endcomment -%}
+          {%- if product.media.size > 1 -%}
+            <button class="gallery__arrow gallery__arrow--prev" aria-label="Previous image" data-gallery-prev>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <button class="gallery__arrow gallery__arrow--next" aria-label="Next image" data-gallery-next>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          {%- endif -%}
+        </div>
+      </div>
+
+      {%- comment -%} ── Product Info ── {%- endcomment -%}
+      <div class="main-product__info">
+
+        {%- if section.settings.show_vendor and product.vendor != blank -%}
+          <p class="main-product__vendor">{{ product.vendor }}</p>
+        {%- endif -%}
+
+        <h1 class="main-product__title">{{ product.title }}</h1>
+
+        {%- comment -%} Price {%- endcomment -%}
+        <div class="main-product__price" id="main-product-price">
+          {%- if current_variant.compare_at_price > current_variant.price -%}
+            <span class="price price--sale">{{ current_variant.price | money }}</span>
+            <span class="price price--compare">{{ current_variant.compare_at_price | money }}</span>
+            {%- assign savings = current_variant.compare_at_price | minus: current_variant.price -%}
+            <span class="main-product__savings">
+              Save {{ savings | money }}
+              ({{ savings | times: 100.0 | divided_by: current_variant.compare_at_price | round }}% off)
+            </span>
+          {%- else -%}
+            <span class="price">{{ current_variant.price | money }}</span>
+          {%- endif -%}
+        </div>
+
+        {%- comment -%} Star summary (placeholder — wire to a reviews app) {%- endcomment -%}
+        {%- if section.settings.show_rating -%}
+          <div class="main-product__rating" aria-label="4.9 out of 5 stars">
+            <span class="rating-stars" aria-hidden="true">★★★★★</span>
+            <span class="rating-count">4.9 (124 reviews)</span>
+          </div>
+        {%- endif -%}
+
+        <form
+          action="{{ routes.cart_add_url }}"
+          method="post"
+          id="main-product-form"
+          class="main-product__form"
+          data-product-url="{{ product.url }}"
+        >
+          <input type="hidden" name="id" id="main-product-variant-id" value="{{ current_variant.id }}">
+
+          {%- comment -%} Variant options {%- endcomment -%}
+          {%- unless product.has_only_default_variant -%}
+            {%- for option in product.options_with_values -%}
+              <div class="product-option">
+                <div class="product-option__header">
+                  <label class="product-option__label">{{ option.name }}</label>
+                  {%- if option.name == 'Color' or option.name == 'Colour' -%}
+                    <span class="product-option__selected" id="option-selected-{{ option.position }}">{{ option.selected_value }}</span>
+                  {%- endif -%}
+                </div>
+                <div class="product-option__values" role="radiogroup" aria-label="{{ option.name }}">
+                  {%- for value in option.values -%}
+                    <button
+                      type="button"
+                      class="product-option__value{% if option.selected_value == value %} selected{% endif %}"
+                      data-option-position="{{ option.position }}"
+                      data-option-name="{{ option.name }}"
+                      data-option-value="{{ value }}"
+                      role="radio"
+                      aria-checked="{{ option.selected_value == value }}"
+                    >
+                      {{ value }}
+                    </button>
+                  {%- endfor -%}
+                </div>
+              </div>
+            {%- endfor -%}
+          {%- endunless -%}
+
+          {%- comment -%} Quantity {%- endcomment -%}
+          <div class="main-product__qty-row">
+            <label class="product-option__label" for="main-product-qty">Quantity</label>
+            <div class="qty-selector">
+              <button type="button" class="qty-selector__btn" data-qty-action="decrease" aria-label="Decrease quantity">−</button>
+              <input
+                type="number"
+                id="main-product-qty"
+                name="quantity"
+                class="qty-selector__input"
+                value="1"
+                min="1"
+                aria-label="Quantity"
+              >
+              <button type="button" class="qty-selector__btn" data-qty-action="increase" aria-label="Increase quantity">+</button>
+            </div>
+          </div>
+
+          {%- comment -%} Add to cart + Buy now {%- endcomment -%}
+          <div class="main-product__cta">
+            <button
+              type="submit"
+              id="main-product-atc-btn"
+              class="btn btn--primary btn--full main-product__atc-btn"
+              {% unless current_variant.available %}disabled{% endunless %}
+            >
+              {%- if current_variant.available -%}
+                {{ 'products.add_to_cart' | t }}
+              {%- else -%}
+                {{ 'products.sold_out' | t }}
+              {%- endif -%}
+            </button>
+
+            {%- if section.settings.show_dynamic_checkout -%}
+              {{ form | payment_button }}
+            {%- endif -%}
+          </div>
+        </form>
+
+        {%- comment -%} Trust badges {%- endcomment -%}
+        {%- if section.settings.show_trust_badges -%}
+          <div class="main-product__trust">
+            <div class="trust-badge">
+              {%- render 'icon-shield' -%}
+              <span>{{ 'products.secure_checkout' | t }}</span>
+            </div>
+            <div class="trust-badge">
+              {%- render 'icon-truck' -%}
+              <span>{{ 'products.free_shipping_threshold' | t }}</span>
+            </div>
+            <div class="trust-badge">
+              {%- render 'icon-return' -%}
+              <span>{{ 'products.returns' | t }}</span>
+            </div>
+          </div>
+        {%- endif -%}
+
+        {%- comment -%} Description accordion tabs {%- endcomment -%}
+        <div class="main-product__tabs">
+          {%- if product.description != blank -%}
+            <details class="product-tab" open>
+              <summary class="product-tab__header">
+                Description
+                <svg class="product-tab__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+              </summary>
+              <div class="product-tab__body rte">
+                {{ product.description }}
+              </div>
+            </details>
+          {%- endif -%}
+
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when 'tab' -%}
+                <details class="product-tab" {{ block.shopify_attributes }}>
+                  <summary class="product-tab__header">
+                    {{ block.settings.heading }}
+                    <svg class="product-tab__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                  </summary>
+                  <div class="product-tab__body rte">{{ block.settings.content }}</div>
+                </details>
+            {%- endcase -%}
+          {%- endfor -%}
+        </div>
+
+        {%- comment -%} Share {%- endcomment -%}
+        {%- if section.settings.show_share_buttons -%}
+          <div class="main-product__share">
+            <span class="main-product__share-label">Share</span>
+            <a
+              href="https://twitter.com/intent/tweet?url={{ product.url | full_url | url_encode }}&text={{ product.title | url_encode }}"
+              class="main-product__share-link"
+              target="_blank"
+              rel="noopener"
+              aria-label="Share on X (Twitter)"
+            >X</a>
+            <a
+              href="https://www.facebook.com/sharer/sharer.php?u={{ product.url | full_url | url_encode }}"
+              class="main-product__share-link"
+              target="_blank"
+              rel="noopener"
+              aria-label="Share on Facebook"
+            >Facebook</a>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{%- comment -%} Variant data for JS {%- endcomment -%}
+<script type="application/json" id="product-variants-json">
+  {{ product.variants | json }}
+</script>
+
+{% schema %}
+{
+  "name": "Product information",
+  "tag": "section",
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "Custom tab",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Tab heading",
+          "default": "Details"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Tab content"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Show vendor",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "label": "Show star rating placeholder",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dynamic_checkout",
+      "label": "Show dynamic checkout buttons",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_trust_badges",
+      "label": "Show trust badges",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_share_buttons",
+      "label": "Show share buttons",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

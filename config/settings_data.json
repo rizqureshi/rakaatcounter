@@ -1,0 +1,18 @@
+{
+  "current": {
+    "color_primary": "#2D5016",
+    "color_accent": "#C9A84C",
+    "color_background": "#FAF7F2",
+    "color_text": "#2C1A0E",
+    "color_text_secondary": "#6B5744",
+    "color_border": "#E8DDD0",
+    "color_button_text": "#FAF7F2",
+    "heading_font": "'Playfair Display', Georgia, serif",
+    "body_font": "'DM Sans', sans-serif",
+    "body_font_size": 16,
+    "logo_width": 160,
+    "sticky_header": true,
+    "cart_type": "drawer"
+  },
+  "presets": {}
+}

@@ -1,0 +1,140 @@
+<section class="main-search section-padding" aria-label="Search results">
+  <div class="container">
+
+    <h1 class="main-search__title">
+      {%- if search.performed -%}
+        {%- if search.results_count == 0 -%}
+          No results for &ldquo;{{ search.terms | escape }}&rdquo;
+        {%- else -%}
+          {{ search.results_count }} result{% if search.results_count != 1 %}s{% endif %} for &ldquo;{{ search.terms | escape }}&rdquo;
+        {%- endif -%}
+      {%- else -%}
+        Search
+      {%- endif -%}
+    </h1>
+
+    {%- comment -%} Search form {%- endcomment -%}
+    <form action="{{ routes.search_url }}" method="get" role="search" class="main-search__form">
+      <div class="main-search__input-wrap">
+        <label class="sr-only" for="search-input">Search</label>
+        <input
+          type="search"
+          id="search-input"
+          name="q"
+          class="main-search__input"
+          value="{{ search.terms | escape }}"
+          placeholder="Search for products..."
+          aria-label="Search"
+          autofocus
+        >
+        <input type="hidden" name="type" value="product">
+        <button type="submit" class="main-search__submit btn btn--primary" aria-label="Search">
+          {%- render 'icon-search' -%}
+          Search
+        </button>
+      </div>
+    </form>
+
+    {%- comment -%} Results {%- endcomment -%}
+    {%- if search.performed -%}
+      {%- if search.results_count > 0 -%}
+        {%- paginate search.results by section.settings.products_per_page -%}
+
+          <ul
+            class="product-grid product-grid--{{ section.settings.columns_desktop }}-col"
+            role="list"
+          >
+            {%- for item in search.results -%}
+              {%- case item.object_type -%}
+                {%- when 'product' -%}
+                  <li class="product-grid__item">
+                    {%- render 'product-card',
+                      product: item,
+                      show_vendor: false,
+                      lazy: true
+                    -%}
+                  </li>
+                {%- when 'article' -%}
+                  <li class="search-result-article">
+                    <a href="{{ item.url }}" class="search-result-article__link">
+                      {%- if item.image -%}
+                        {{ item.image | image_url: width: 400 | image_tag: class: 'search-result-article__image', loading: 'lazy', alt: item.image.alt | escape }}
+                      {%- endif -%}
+                      <div class="search-result-article__info">
+                        <p class="search-result-article__type">Article</p>
+                        <h3 class="search-result-article__title">{{ item.title }}</h3>
+                        <p class="search-result-article__excerpt">{{ item.excerpt | strip_html | truncate: 120 }}</p>
+                      </div>
+                    </a>
+                  </li>
+                {%- when 'page' -%}
+                  <li class="search-result-page">
+                    <a href="{{ item.url }}" class="search-result-page__link">
+                      <h3 class="search-result-page__title">{{ item.title }}</h3>
+                      <p class="search-result-page__content">{{ item.content | strip_html | truncate: 120 }}</p>
+                    </a>
+                  </li>
+              {%- endcase -%}
+            {%- endfor -%}
+          </ul>
+
+          {%- if paginate.pages > 1 -%}
+            <nav class="pagination" aria-label="Search pagination">
+              {%- if paginate.previous -%}
+                <a href="{{ paginate.previous.url }}" class="pagination__btn btn btn--secondary btn--sm">← Previous</a>
+              {%- endif -%}
+              <div class="pagination__pages">
+                {%- for part in paginate.parts -%}
+                  {%- if part.is_link -%}
+                    <a href="{{ part.url }}" class="pagination__page">{{ part.title }}</a>
+                  {%- elsif part.title == paginate.current_page -%}
+                    <span class="pagination__page pagination__page--current" aria-current="page">{{ part.title }}</span>
+                  {%- else -%}
+                    <span class="pagination__ellipsis">{{ part.title }}</span>
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+              {%- if paginate.next -%}
+                <a href="{{ paginate.next.url }}" class="pagination__btn btn btn--secondary btn--sm">Next →</a>
+              {%- endif -%}
+            </nav>
+          {%- endif -%}
+
+        {%- endpaginate -%}
+      {%- else -%}
+        <div class="search-no-results">
+          <p>Try different keywords, or explore our full collection below.</p>
+          <a href="{{ routes.all_products_collection_url }}" class="btn btn--primary">Shop All Products</a>
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Search",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "label": "Results per page",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Columns on desktop",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    }
+  ]
+}
+{% endschema %}

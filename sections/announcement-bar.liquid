@@ -1,0 +1,27 @@
+{%- if section.settings.show_announcement -%}
+  <div class="announcement-bar" role="region" aria-label="Announcement">
+    <div class="announcement-bar__inner container">
+      <p class="announcement-bar__text">{{ section.settings.announcement_text }}</p>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Announcement bar",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_announcement",
+      "label": "Show announcement",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "announcement_text",
+      "label": "Announcement text",
+      "default": "Free shipping on orders over $75 · Handcrafted with love"
+    }
+  ]
+}
+{% endschema %}

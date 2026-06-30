@@ -1,0 +1,203 @@
+<section class="main-cart section-padding" aria-label="Shopping cart">
+  <div class="container">
+
+    <h1 class="main-cart__title">{{ 'cart.title' | t }}</h1>
+
+    {%- if cart.item_count > 0 -%}
+      <div class="main-cart__grid">
+
+        {%- comment -%} ── Cart items ── {%- endcomment -%}
+        <div class="main-cart__items">
+          <form action="{{ routes.cart_url }}" method="post" id="cart-form" novalidate>
+
+            <div class="cart-table">
+              <div class="cart-table__head" role="row">
+                <span role="columnheader">Product</span>
+                <span role="columnheader">Price</span>
+                <span role="columnheader">Quantity</span>
+                <span role="columnheader">Total</span>
+              </div>
+
+              {%- for item in cart.items -%}
+                <div class="cart-table__row" role="row" data-cart-row="{{ item.key }}">
+
+                  {%- comment -%} Product cell {%- endcomment -%}
+                  <div class="cart-table__cell cart-table__cell--product" role="cell">
+                    <a href="{{ item.url }}" class="cart-table__image-link">
+                      {{
+                        item.image
+                        | image_url: width: 160
+                        | image_tag:
+                          class: 'cart-table__image',
+                          loading: 'lazy',
+                          alt: item.image.alt | default: item.title | escape
+                      }}
+                    </a>
+                    <div class="cart-table__product-info">
+                      <a href="{{ item.url }}" class="cart-table__product-title">{{ item.product_title }}</a>
+                      {%- unless item.product.has_only_default_variant -%}
+                        <p class="cart-table__variant">{{ item.variant_title }}</p>
+                      {%- endunless -%}
+                      {%- if item.selling_plan_allocation -%}
+                        <p class="cart-table__selling-plan">{{ item.selling_plan_allocation.selling_plan.name }}</p>
+                      {%- endif -%}
+                      <button
+                        type="button"
+                        class="cart-table__remove"
+                        data-cart-remove="{{ item.key }}"
+                        aria-label="Remove {{ item.title }}"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+
+                  {%- comment -%} Price cell {%- endcomment -%}
+                  <div class="cart-table__cell cart-table__cell--price" role="cell">
+                    {%- if item.original_price != item.final_price -%}
+                      <span class="price price--sale">{{ item.final_price | money }}</span>
+                      <span class="price price--compare">{{ item.original_price | money }}</span>
+                    {%- else -%}
+                      <span class="price">{{ item.original_price | money }}</span>
+                    {%- endif -%}
+                  </div>
+
+                  {%- comment -%} Quantity cell {%- endcomment -%}
+                  <div class="cart-table__cell cart-table__cell--qty" role="cell">
+                    <div class="qty-selector">
+                      <button
+                        type="button"
+                        class="qty-selector__btn"
+                        data-qty-action="decrease"
+                        data-cart-key="{{ item.key }}"
+                        aria-label="Decrease quantity of {{ item.title }}"
+                      >−</button>
+                      <input
+                        type="number"
+                        class="qty-selector__input"
+                        name="updates[]"
+                        value="{{ item.quantity }}"
+                        min="0"
+                        data-cart-qty="{{ item.key }}"
+                        aria-label="Quantity of {{ item.title }}"
+                      >
+                      <button
+                        type="button"
+                        class="qty-selector__btn"
+                        data-qty-action="increase"
+                        data-cart-key="{{ item.key }}"
+                        aria-label="Increase quantity of {{ item.title }}"
+                      >+</button>
+                    </div>
+                  </div>
+
+                  {%- comment -%} Line total cell {%- endcomment -%}
+                  <div class="cart-table__cell cart-table__cell--total" role="cell">
+                    <span class="price">{{ item.final_line_price | money }}</span>
+                  </div>
+
+                </div>
+              {%- endfor -%}
+            </div>
+
+            {%- comment -%} Cart note {%- endcomment -%}
+            {%- if section.settings.show_cart_note -%}
+              <div class="cart-note">
+                <label class="cart-note__label" for="cart-note">{{ 'cart.note' | t }}</label>
+                <textarea
+                  id="cart-note"
+                  name="note"
+                  class="cart-note__input"
+                  rows="3"
+                  placeholder="{{ 'cart.note_placeholder' | t }}"
+                >{{ cart.note }}</textarea>
+              </div>
+            {%- endif -%}
+          </form>
+        </div>
+
+        {%- comment -%} ── Order summary ── {%- endcomment -%}
+        <aside class="cart-summary" aria-label="Order summary">
+
+          <h2 class="cart-summary__title">Order Summary</h2>
+
+          <div class="cart-summary__lines">
+            <div class="cart-summary__line">
+              <span>Subtotal ({{ cart.item_count }} item{% if cart.item_count != 1 %}s{% endif %})</span>
+              <span id="cart-subtotal">{{ cart.total_price | money }}</span>
+            </div>
+
+            {%- if cart.cart_level_discount_applications.size > 0 -%}
+              {%- for discount in cart.cart_level_discount_applications -%}
+                <div class="cart-summary__line cart-summary__line--discount">
+                  <span>{{ discount.title }}</span>
+                  <span>−{{ discount.total_allocated_amount | money }}</span>
+                </div>
+              {%- endfor -%}
+            {%- endif -%}
+
+            <div class="cart-summary__line cart-summary__line--shipping">
+              <span>Shipping</span>
+              <span>Calculated at checkout</span>
+            </div>
+          </div>
+
+          <div class="cart-summary__total">
+            <span>Estimated Total</span>
+            <span>{{ cart.total_price | money }}</span>
+          </div>
+
+          <p class="cart-summary__tax-note">{{ 'cart.taxes_and_shipping' | t }}</p>
+
+          <a href="{{ routes.checkout }}" class="btn btn--primary btn--full cart-summary__checkout-btn">
+            Checkout
+          </a>
+
+          <a href="{{ routes.all_products_collection_url }}" class="btn btn--secondary btn--full">
+            Continue Shopping
+          </a>
+
+          {%- if section.settings.show_payment_icons -%}
+            <div class="cart-summary__payment-icons">
+              {{ shop.enabled_payment_types | payment_type_svg_tag: class: 'cart-payment-icon' }}
+            </div>
+          {%- endif -%}
+        </aside>
+      </div>
+
+    {%- else -%}
+      <div class="main-cart__empty">
+        <div class="cart-empty-icon" aria-hidden="true">
+          {%- render 'icon-cart' -%}
+        </div>
+        <h2>Your cart is empty</h2>
+        <p>Looks like you haven't added anything yet.</p>
+        <a href="{{ routes.all_products_collection_url }}" class="btn btn--primary">
+          Shop Now
+        </a>
+      </div>
+    {%- endif -%}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Cart",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_cart_note",
+      "label": "Show order note field",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payment_icons",
+      "label": "Show accepted payment icons",
+      "default": true
+    }
+  ]
+}
+{% endschema %}
