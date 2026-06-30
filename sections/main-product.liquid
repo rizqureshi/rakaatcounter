@@ -48,23 +48,42 @@
         <div class="gallery__main">
           <div class="gallery__main-image-wrap">
             {%- for media in product.media -%}
+              {%- assign media_loading = 'lazy' -%}
+              {%- assign media_priority = 'auto' -%}
+              {%- if forloop.first -%}
+                {%- assign media_loading = 'eager' -%}
+                {%- assign media_priority = 'high' -%}
+              {%- endif -%}
               <div
                 class="gallery__media{% if forloop.first %} active{% endif %}"
                 data-media-id="{{ media.id }}"
               >
                 {%- case media.media_type -%}
                   {%- when 'image' -%}
-                    {{
-                      media
-                      | image_url: width: 1200
-                      | image_tag:
-                        id: forloop.first | then: 'product-main-image' | else: nil,
-                        class: 'gallery__image',
-                        loading: forloop.first | then: 'eager' | else: 'lazy',
-                        fetchpriority: forloop.first | then: 'high' | else: 'auto',
-                        alt: media.alt | default: product.title | escape,
-                        data-zoom: media | image_url: width: 2400
-                    }}
+                    {%- if forloop.first -%}
+                      {{
+                        media
+                        | image_url: width: 1200
+                        | image_tag:
+                          id: 'product-main-image',
+                          class: 'gallery__image',
+                          loading: media_loading,
+                          fetchpriority: media_priority,
+                          alt: media.alt | default: product.title | escape,
+                          data-zoom: media | image_url: width: 2400
+                      }}
+                    {%- else -%}
+                      {{
+                        media
+                        | image_url: width: 1200
+                        | image_tag:
+                          class: 'gallery__image',
+                          loading: media_loading,
+                          fetchpriority: media_priority,
+                          alt: media.alt | default: product.title | escape,
+                          data-zoom: media | image_url: width: 2400
+                      }}
+                    {%- endif -%}
                   {%- when 'video' -%}
                     {{
                       media

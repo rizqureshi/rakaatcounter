@@ -7,6 +7,8 @@
 {%- endcomment -%}
 
 {%- assign lazy = lazy | default: true -%}
+{%- assign img_loading = 'lazy' -%}
+{%- unless lazy -%}{%- assign img_loading = 'eager' -%}{%- endunless -%}
 
 <article class="product-card" aria-label="{{ product.title }}">
   <a href="{{ product.url }}" class="product-card__link" tabindex="-1" aria-hidden="true">
@@ -17,7 +19,7 @@
           | image_url: width: 600
           | image_tag:
             class: 'product-card__image',
-            loading: lazy | ternary: 'lazy', 'eager',
+            loading: img_loading,
             alt: product.featured_media.alt | default: product.title | escape
         }}
         {%- if product.images[1] -%}
