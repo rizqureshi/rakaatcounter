@@ -12,13 +12,14 @@
         {%- for item in cart.items -%}
           <li class="cart-item" data-cart-item="{{ item.key }}">
             <a href="{{ item.url }}" class="cart-item__image-link">
+              {%- assign drawer_img_alt = item.image.alt | default: item.title | escape -%}
               {{
                 item.image
                 | image_url: width: 120
                 | image_tag:
                   class: 'cart-item__image',
                   loading: 'lazy',
-                  alt: item.image.alt | default: item.title | escape
+                  alt: drawer_img_alt
               }}
             </a>
             <div class="cart-item__info">

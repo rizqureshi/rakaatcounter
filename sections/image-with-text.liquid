@@ -4,13 +4,14 @@
 
       <div class="image-with-text__media">
         {%- if section.settings.image != blank -%}
+          {%- assign iwt_img_alt = section.settings.image.alt | escape -%}
           {{
             section.settings.image
             | image_url: width: 900
             | image_tag:
               class: 'image-with-text__image',
               loading: 'lazy',
-              alt: section.settings.image.alt | escape
+              alt: iwt_img_alt
           }}
         {%- else -%}
           {{ 'product-1' | placeholder_svg_tag: 'image-with-text__placeholder' }}

@@ -58,7 +58,8 @@
                   <li class="search-result-article">
                     <a href="{{ item.url }}" class="search-result-article__link">
                       {%- if item.image -%}
-                        {{ item.image | image_url: width: 400 | image_tag: class: 'search-result-article__image', loading: 'lazy', alt: item.image.alt | escape }}
+                        {%- assign search_img_alt = item.image.alt | escape -%}
+                        {{ item.image | image_url: width: 400 | image_tag: class: 'search-result-article__image', loading: 'lazy', alt: search_img_alt }}
                       {%- endif -%}
                       <div class="search-result-article__info">
                         <p class="search-result-article__type">Article</p>

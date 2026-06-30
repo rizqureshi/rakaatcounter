@@ -14,22 +14,24 @@
   <a href="{{ product.url }}" class="product-card__link" tabindex="-1" aria-hidden="true">
     <div class="product-card__media">
       {%- if product.featured_media -%}
+        {%- assign pc_alt = product.featured_media.alt | default: product.title | escape -%}
         {{
           product.featured_media
           | image_url: width: 600
           | image_tag:
             class: 'product-card__image',
             loading: img_loading,
-            alt: product.featured_media.alt | default: product.title | escape
+            alt: pc_alt
         }}
         {%- if product.images[1] -%}
+          {%- assign pc_alt2 = product.images[1].alt | default: product.title | escape -%}
           {{
             product.images[1]
             | image_url: width: 600
             | image_tag:
               class: 'product-card__image product-card__image--hover',
               loading: 'lazy',
-              alt: product.images[1].alt | default: product.title | escape
+              alt: pc_alt2
           }}
         {%- endif -%}
       {%- else -%}

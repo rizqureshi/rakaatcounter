@@ -24,13 +24,14 @@
                   {%- comment -%} Product cell {%- endcomment -%}
                   <div class="cart-table__cell cart-table__cell--product" role="cell">
                     <a href="{{ item.url }}" class="cart-table__image-link">
+                      {%- assign cart_img_alt = item.image.alt | default: item.title | escape -%}
                       {{
                         item.image
                         | image_url: width: 160
                         | image_tag:
                           class: 'cart-table__image',
                           loading: 'lazy',
-                          alt: item.image.alt | default: item.title | escape
+                          alt: cart_img_alt
                       }}
                     </a>
                     <div class="cart-table__product-info">

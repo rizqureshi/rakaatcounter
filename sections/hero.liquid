@@ -1,6 +1,7 @@
 <section class="hero{% if section.settings.full_height %} hero--full{% endif %}" aria-label="{{ section.settings.heading }}">
   <div class="hero__media">
     {%- if section.settings.image != blank -%}
+      {%- assign hero_img_alt = section.settings.image.alt | escape -%}
       {{
         section.settings.image
         | image_url: width: 1920
@@ -8,7 +9,7 @@
           class: 'hero__image',
           loading: 'eager',
           fetchpriority: 'high',
-          alt: section.settings.image.alt | escape
+          alt: hero_img_alt
       }}
     {%- else -%}
       <div class="hero__image hero__image--placeholder">

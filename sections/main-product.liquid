@@ -34,10 +34,11 @@
                 aria-label="{{ media.alt | default: product.title | escape }} {{ forloop.index }} of {{ product.media.size }}"
                 aria-pressed="{{ forloop.first }}"
               >
+                {%- assign thumb_alt = media.alt | default: product.title | escape -%}
                 {{
                   media.preview_image
                   | image_url: width: 120
-                  | image_tag: loading: 'lazy', alt: media.alt | default: product.title | escape
+                  | image_tag: loading: 'lazy', alt: thumb_alt
                 }}
               </button>
             {%- endfor -%}
@@ -60,6 +61,8 @@
               >
                 {%- case media.media_type -%}
                   {%- when 'image' -%}
+                    {%- assign gallery_alt = media.alt | default: product.title | escape -%}
+                    {%- assign gallery_zoom = media | image_url: width: 2400 -%}
                     {%- if forloop.first -%}
                       {{
                         media
@@ -69,8 +72,8 @@
                           class: 'gallery__image',
                           loading: media_loading,
                           fetchpriority: media_priority,
-                          alt: media.alt | default: product.title | escape,
-                          data-zoom: media | image_url: width: 2400
+                          alt: gallery_alt,
+                          data-zoom: gallery_zoom
                       }}
                     {%- else -%}
                       {{
@@ -80,8 +83,8 @@
                           class: 'gallery__image',
                           loading: media_loading,
                           fetchpriority: media_priority,
-                          alt: media.alt | default: product.title | escape,
-                          data-zoom: media | image_url: width: 2400
+                          alt: gallery_alt,
+                          data-zoom: gallery_zoom
                       }}
                     {%- endif -%}
                   {%- when 'video' -%}

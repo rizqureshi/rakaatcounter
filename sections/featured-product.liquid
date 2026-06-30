@@ -14,13 +14,14 @@
         <div class="featured-product__media">
           <div class="featured-product__main-image">
             {%- if product.featured_media -%}
+              {%- assign fp_img_alt = product.featured_media.alt | default: product.title | escape -%}
               {{
                 product.featured_media
                 | image_url: width: 800
                 | image_tag:
                   id: 'featured-product-main-image',
                   class: 'featured-product__image',
-                  alt: product.featured_media.alt | escape,
+                  alt: fp_img_alt,
                   loading: 'lazy'
               }}
             {%- endif -%}

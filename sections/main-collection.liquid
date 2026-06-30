@@ -5,6 +5,7 @@
     <div class="collection-hero">
       {%- if collection.image -%}
         <div class="collection-hero__media">
+          {%- assign col_img_alt = collection.image.alt | default: collection.title | escape -%}
           {{
             collection.image
             | image_url: width: 1600
@@ -12,7 +13,7 @@
               class: 'collection-hero__image',
               loading: 'eager',
               fetchpriority: 'high',
-              alt: collection.image.alt | default: collection.title | escape
+              alt: col_img_alt
           }}
           <div class="collection-hero__overlay"></div>
         </div>
@@ -228,13 +229,14 @@
       "default": 3
     },
     {
-      "type": "range",
+      "type": "select",
       "id": "columns_mobile",
       "label": "Columns on mobile",
-      "min": 1,
-      "max": 2,
-      "step": 1,
-      "default": 2
+      "options": [
+        { "value": "1", "label": "1 column" },
+        { "value": "2", "label": "2 columns" }
+      ],
+      "default": "2"
     },
     {
       "type": "checkbox",
