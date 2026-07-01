@@ -25,33 +25,33 @@
           "type": "feature",
           "settings": {
             "icon": "✦",
-            "heading": "Precision Crafted",
-            "text": "Every click is satisfying and accurate, keeping you focused throughout salah."
+            "heading": "Smart Sensor Technology",
+            "text": "A precision capacitive sensor detects each press instantly — no mechanical click, no missed counts."
           }
         },
         "feature-2": {
           "type": "feature",
           "settings": {
             "icon": "✦",
-            "heading": "Durable Materials",
-            "text": "Built to last a lifetime of daily prayer use."
+            "heading": "Silent & Discreet",
+            "text": "The sensor operates without sound, keeping your focus on worship without disturbing those around you."
           }
         },
         "feature-3": {
           "type": "feature",
           "settings": {
             "icon": "✦",
-            "heading": "Mindful Design",
-            "text": "Thoughtfully designed so nothing distracts you from your connection with Allah."
+            "heading": "Reliable Every Time",
+            "text": "Engineered to register every touch accurately — even through light fabric — so you never lose your count."
           }
         }
       },
       "block_order": ["feature-1", "feature-2", "feature-3"],
       "settings": {
         "image_position": "right",
-        "subheading": "Why Rakaat Counter?",
-        "heading": "Designed for Mindful Worship",
-        "text": "<p>Every detail of the Rakaat Counter has been carefully considered to enhance your prayer experience without distraction.</p>"
+        "subheading": "The Technology Inside",
+        "heading": "Engineered for Precision Worship",
+        "text": "<p>Beneath the Rakaat Counter's timeless exterior lies a capacitive touch sensor engineered for absolute reliability. Whether you are in sujood or standing, every rakaat registers — quietly, accurately, every time.</p>"
       }
     },
     "testimonials": {
@@ -90,18 +90,7 @@
         "heading": "Loved by the Community",
         "subheading": "Trusted by thousands of Muslims around the world"
       }
-    },
-    "rich-text": {
-      "type": "rich-text",
-      "settings": {
-        "alignment": "center",
-        "subheading": "Our Promise",
-        "heading": "Made with Intention, Delivered with Care",
-        "text": "<p>Every Rakaat Counter is thoughtfully made and shipped directly to your door. We stand behind every product with a 30-day return policy and lifetime quality guarantee.</p>",
-        "button_label": "Shop the Collection",
-        "button_style": "accent"
-      }
     }
   },
-  "order": ["hero", "featured-product", "image-with-text", "testimonials", "rich-text"]
+  "order": ["hero", "featured-product", "image-with-text", "testimonials"]
 }
