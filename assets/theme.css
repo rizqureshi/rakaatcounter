@@ -442,10 +442,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .header__nav-link {
-  font-size: var(--text-sm);
-  font-weight: 500;
+  font-size: var(--text-xl);
+  font-weight: 800;
   letter-spacing: 0.03em;
-  color: var(--color-text);
+  color: #2C1A0E;
   transition: color var(--transition-fast);
   padding-block: var(--space-1);
   position: relative;
@@ -532,7 +532,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .header__icon-btn {
-  color: var(--color-text);
+  color: #0C5460;
 }
 
 .header__cart-btn {
@@ -658,7 +658,7 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 500;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--color-accent);
+  color: #2C1A0E;
   margin-bottom: var(--space-4);
 }
 
