@@ -12,9 +12,15 @@
           alt: hero_img_alt
       }}
     {%- else -%}
-      <div class="hero__image hero__image--placeholder">
-        {{ 'lifestyle-1' | placeholder_svg_tag: 'hero__placeholder-svg' }}
-      </div>
+      <img
+        src="{{ 'hero-bg.jpg' | asset_url }}"
+        class="hero__image"
+        loading="eager"
+        fetchpriority="high"
+        alt="A serene Islamic prayer room with warm light and geometric patterns"
+        width="1920"
+        height="1280"
+      >
     {%- endif -%}
     <div class="hero__overlay" style="--hero-overlay-opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }}"></div>
   </div>
