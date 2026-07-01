@@ -1,0 +1,67 @@
+<div class="customer-page section-padding">
+  <div class="container">
+
+    <div class="account-header">
+      <div>
+        <h1 class="customer-page__title">My Account</h1>
+        <p class="account-header__welcome">Welcome back, {{ customer.first_name }}.</p>
+      </div>
+      <a href="{{ routes.account_logout_url }}" class="btn btn--secondary btn--sm">Sign Out</a>
+    </div>
+
+    <div class="account-layout">
+
+      {%- comment -%} Sidebar nav {%- endcomment -%}
+      <nav class="account-nav" aria-label="Account navigation">
+        <a href="{{ routes.account_url }}" class="account-nav__link active">Order History</a>
+        <a href="{{ routes.account_addresses_url }}" class="account-nav__link">Addresses</a>
+      </nav>
+
+      {%- comment -%} Orders {%- endcomment -%}
+      <div class="account-main">
+        <h2 class="account-section-title">Order History</h2>
+
+        {%- if customer.orders.size > 0 -%}
+          <table class="orders-table">
+            <thead>
+              <tr>
+                <th class="orders-table__head">Order</th>
+                <th class="orders-table__head">Date</th>
+                <th class="orders-table__head">Payment</th>
+                <th class="orders-table__head">Fulfilment</th>
+                <th class="orders-table__head">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%- for order in customer.orders -%}
+                <tr class="orders-table__row">
+                  <td class="orders-table__cell">
+                    <a href="{{ order.customer_url }}" class="orders-table__link">{{ order.name }}</a>
+                  </td>
+                  <td class="orders-table__cell">{{ order.created_at | date: '%d %b %Y' }}</td>
+                  <td class="orders-table__cell">
+                    <span class="order-badge order-badge--{{ order.financial_status }}">
+                      {{ order.financial_status_label }}
+                    </span>
+                  </td>
+                  <td class="orders-table__cell">
+                    <span class="order-badge order-badge--{{ order.fulfillment_status }}">
+                      {{ order.fulfillment_status_label | default: 'Unfulfilled' }}
+                    </span>
+                  </td>
+                  <td class="orders-table__cell orders-table__cell--total">{{ order.total_price | money }}</td>
+                </tr>
+              {%- endfor -%}
+            </tbody>
+          </table>
+        {%- else -%}
+          <div class="account-empty">
+            <p class="account-empty__text">You haven't placed any orders yet.</p>
+            <a href="{{ routes.all_products_collection_url }}" class="btn btn--primary">Shop Now</a>
+          </div>
+        {%- endif -%}
+      </div>
+
+    </div>
+  </div>
+</div>

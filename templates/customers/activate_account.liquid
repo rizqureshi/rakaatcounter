@@ -1,0 +1,41 @@
+<div class="customer-page section-padding">
+  <div class="container container--narrow">
+
+    <h1 class="customer-page__title">Activate Account</h1>
+    <p class="customer-page__subtitle">Create a password to activate your account.</p>
+
+    {%- form 'activate_customer_password', class: 'customer-form' -%}
+      {%- if form.errors -%}
+        <div class="form-error" role="alert">
+          {{ form.errors | default_errors }}
+        </div>
+      {%- endif -%}
+
+      <div class="form-group">
+        <label class="form-label" for="Password">Password</label>
+        <input
+          type="password"
+          id="Password"
+          name="customer[password]"
+          class="form-input"
+          autocomplete="new-password"
+          autofocus
+        >
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="PasswordConfirm">Confirm password</label>
+        <input
+          type="password"
+          id="PasswordConfirm"
+          name="customer[password_confirmation]"
+          class="form-input"
+          autocomplete="new-password"
+        >
+      </div>
+
+      <button type="submit" class="btn btn--primary btn--full">Activate Account</button>
+    {%- endform -%}
+
+  </div>
+</div>

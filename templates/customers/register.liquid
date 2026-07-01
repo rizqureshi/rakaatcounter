@@ -1,0 +1,73 @@
+<div class="customer-page section-padding">
+  <div class="container container--narrow">
+
+    <h1 class="customer-page__title">Create Account</h1>
+    <p class="customer-page__subtitle">Join the Rakaat Counter community.</p>
+
+    {%- form 'create_customer', class: 'customer-form' -%}
+      {%- if form.errors -%}
+        <div class="form-error" role="alert">
+          {{ form.errors | default_errors }}
+        </div>
+      {%- endif -%}
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="FirstName">First name</label>
+          <input
+            type="text"
+            id="FirstName"
+            name="customer[first_name]"
+            class="form-input"
+            autocomplete="given-name"
+            value="{{ form.first_name }}"
+            autofocus
+          >
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="LastName">Last name</label>
+          <input
+            type="text"
+            id="LastName"
+            name="customer[last_name]"
+            class="form-input"
+            autocomplete="family-name"
+            value="{{ form.last_name }}"
+          >
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="Email">Email address</label>
+        <input
+          type="email"
+          id="Email"
+          name="customer[email]"
+          class="form-input"
+          autocomplete="email"
+          autocorrect="off"
+          autocapitalize="off"
+          value="{{ form.email }}"
+        >
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="CreatePassword">Password</label>
+        <input
+          type="password"
+          id="CreatePassword"
+          name="customer[password]"
+          class="form-input"
+          autocomplete="new-password"
+        >
+      </div>
+
+      <button type="submit" class="btn btn--primary btn--full">Create Account</button>
+    {%- endform -%}
+
+    <div class="customer-page__links">
+      <a href="{{ routes.account_login_url }}" class="customer-page__link">Already have an account? Sign in</a>
+    </div>
+
+  </div>
+</div>

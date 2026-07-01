@@ -1,0 +1,119 @@
+<div class="customer-page section-padding">
+  <div class="container">
+
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <ol class="breadcrumb__list" role="list">
+        <li><a href="{{ routes.account_url }}" class="breadcrumb__link">Account</a></li>
+        <li><span class="breadcrumb__sep" aria-hidden="true">/</span></li>
+        <li><span class="breadcrumb__current" aria-current="page">{{ order.name }}</span></li>
+      </ol>
+    </nav>
+
+    <h1 class="customer-page__title">Order {{ order.name }}</h1>
+    <p class="account-order-meta">
+      Placed on {{ order.created_at | date: '%d %B %Y' }} ·
+      <span class="order-badge order-badge--{{ order.financial_status }}">{{ order.financial_status_label }}</span>
+    </p>
+
+    <div class="account-layout">
+
+      <div class="account-main">
+
+        {%- comment -%} Line items {%- endcomment -%}
+        <h2 class="account-section-title">Items</h2>
+        <table class="orders-table">
+          <thead>
+            <tr>
+              <th class="orders-table__head" colspan="2">Product</th>
+              <th class="orders-table__head">Qty</th>
+              <th class="orders-table__head">Price</th>
+              <th class="orders-table__head">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {%- for line_item in order.line_items -%}
+              <tr class="orders-table__row">
+                <td class="orders-table__cell orders-table__cell--image">
+                  {%- if line_item.image -%}
+                    {%- assign li_alt = line_item.title | escape -%}
+                    {{ line_item.image | image_url: width: 80 | image_tag: class: 'orders-table__product-img', loading: 'lazy', alt: li_alt }}
+                  {%- endif -%}
+                </td>
+                <td class="orders-table__cell">
+                  <p class="orders-table__product-title">{{ line_item.title }}</p>
+                  {%- unless line_item.variant.title == 'Default Title' -%}
+                    <p class="orders-table__product-variant">{{ line_item.variant.title }}</p>
+                  {%- endunless -%}
+                  {%- if line_item.fulfillment -%}
+                    <p class="orders-table__fulfillment">
+                      Fulfilled {{ line_item.fulfillment.created_at | date: '%d %b %Y' }}
+                      {%- if line_item.fulfillment.tracking_url -%}
+                        · <a href="{{ line_item.fulfillment.tracking_url }}" target="_blank" rel="noopener">Track package</a>
+                      {%- endif -%}
+                    </p>
+                  {%- endif -%}
+                </td>
+                <td class="orders-table__cell">{{ line_item.quantity }}</td>
+                <td class="orders-table__cell">{{ line_item.price | money }}</td>
+                <td class="orders-table__cell orders-table__cell--total">{{ line_item.quantity | times: line_item.price | money }}</td>
+              </tr>
+            {%- endfor -%}
+          </tbody>
+        </table>
+
+        {%- comment -%} Order totals {%- endcomment -%}
+        <div class="order-totals">
+          <div class="order-totals__row">
+            <span>Subtotal</span>
+            <span>{{ order.line_items_subtotal_price | money }}</span>
+          </div>
+          {%- for discount in order.discounts -%}
+            <div class="order-totals__row order-totals__row--discount">
+              <span>Discount ({{ discount.code }})</span>
+              <span>-{{ discount.amount | money }}</span>
+            </div>
+          {%- endfor -%}
+          {%- for shipping_method in order.shipping_methods -%}
+            <div class="order-totals__row">
+              <span>Shipping ({{ shipping_method.title }})</span>
+              <span>{{ shipping_method.price | money }}</span>
+            </div>
+          {%- endfor -%}
+          {%- for tax_line in order.tax_lines -%}
+            <div class="order-totals__row">
+              <span>{{ tax_line.title }} ({{ tax_line.rate | times: 100 }}%)</span>
+              <span>{{ tax_line.price | money }}</span>
+            </div>
+          {%- endfor -%}
+          <div class="order-totals__row order-totals__row--grand">
+            <span>Total</span>
+            <span>{{ order.total_price | money }}</span>
+          </div>
+        </div>
+
+      </div>
+
+      {%- comment -%} Sidebar: addresses {%- endcomment -%}
+      <aside class="account-sidebar">
+        {%- if order.billing_address -%}
+          <div class="address-card">
+            <h3 class="address-card__title">Billing Address</h3>
+            <address class="address-card__address">
+              {{ order.billing_address | format_address }}
+            </address>
+          </div>
+        {%- endif -%}
+
+        {%- if order.shipping_address -%}
+          <div class="address-card">
+            <h3 class="address-card__title">Shipping Address</h3>
+            <address class="address-card__address">
+              {{ order.shipping_address | format_address }}
+            </address>
+          </div>
+        {%- endif -%}
+      </aside>
+
+    </div>
+  </div>
+</div>

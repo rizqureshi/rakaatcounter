@@ -1,0 +1,50 @@
+<div class="customer-page section-padding">
+  <div class="container container--narrow">
+
+    <h1 class="customer-page__title">Sign In</h1>
+    <p class="customer-page__subtitle">Welcome back — sign in to your Rakaat Counter account.</p>
+
+    {%- form 'customer_login', class: 'customer-form' -%}
+      {%- if form.errors -%}
+        <div class="form-error" role="alert">
+          {{ form.errors | default_errors }}
+        </div>
+      {%- endif -%}
+
+      <div class="form-group">
+        <label class="form-label" for="CustomerEmail">Email address</label>
+        <input
+          type="email"
+          id="CustomerEmail"
+          name="customer[email]"
+          class="form-input"
+          autocomplete="email"
+          autocorrect="off"
+          autocapitalize="off"
+          spellcheck="false"
+          autofocus
+        >
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="CustomerPassword">Password</label>
+        <input
+          type="password"
+          id="CustomerPassword"
+          name="customer[password]"
+          class="form-input"
+          autocomplete="current-password"
+        >
+      </div>
+
+      <button type="submit" class="btn btn--primary btn--full">Sign In</button>
+    {%- endform -%}
+
+    <div class="customer-page__links">
+      <a href="{{ routes.account_recover_url }}" class="customer-page__link">Forgot your password?</a>
+      <span class="customer-page__sep" aria-hidden="true">·</span>
+      <a href="{{ routes.account_register_url }}" class="customer-page__link">Create an account</a>
+    </div>
+
+  </div>
+</div>
