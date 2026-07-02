@@ -3,10 +3,10 @@
     "hero": {
       "type": "hero",
       "settings": {
-        "subheading": "Handcrafted for every prayer",
-        "heading": "Count Every Rakaat with Intention",
-        "text": "A beautifully crafted prayer counter designed to help you stay present and mindful in every moment of worship.",
-        "button_label": "Shop Now",
+        "subheading": "Designed for focused salah",
+        "heading": "Count Every Rakaat with Confidence",
+        "text": "A discreet electronic prayer companion that helps you stay present by keeping track of rakaats during salah.",
+        "button_label": "Shop Rakaat Counter",
         "overlay_opacity": 20,
         "full_height": true
       }
@@ -25,24 +25,24 @@
           "type": "feature",
           "settings": {
             "icon": "✦",
-            "heading": "Smart Sensor Technology",
-            "text": "A precision capacitive sensor detects each press instantly — no mechanical click, no missed counts."
+            "heading": "Sensor-Based Counting",
+            "text": "Designed to detect prayer movement during sujood without requiring manual clicking or phone interaction."
           }
         },
         "feature-2": {
           "type": "feature",
           "settings": {
             "icon": "✦",
-            "heading": "Silent & Discreet",
-            "text": "The sensor operates without sound, keeping your focus on worship without disturbing those around you."
+            "heading": "Quiet and Discreet",
+            "text": "No beeps, no app distractions, and no need to interrupt your prayer rhythm."
           }
         },
         "feature-3": {
           "type": "feature",
           "settings": {
             "icon": "✦",
-            "heading": "Reliable Every Time",
-            "text": "Engineered to register every touch accurately — even through light fabric — so you never lose your count."
+            "heading": "Built for Peace of Mind",
+            "text": "Helps reduce uncertainty when you lose track of rakaats, especially during longer or voluntary prayers."
           }
         }
       },
@@ -50,47 +50,10 @@
       "settings": {
         "image_position": "right",
         "subheading": "The Technology Inside",
-        "heading": "Engineered for Precision Worship",
-        "text": "<p>Beneath the Rakaat Counter's timeless exterior lies a capacitive touch sensor engineered for absolute reliability. Whether you are in sujood or standing, every rakaat registers — quietly, accurately, every time.</p>"
-      }
-    },
-    "testimonials": {
-      "type": "testimonials",
-      "blocks": {
-        "testimonial-1": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "This rakaat counter has completely transformed my prayer experience. The quality is exceptional and the click is so satisfying. I no longer lose count mid-salah.",
-            "author_name": "Ibrahim A.",
-            "author_location": "London, UK"
-          }
-        },
-        "testimonial-2": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "Beautiful craftsmanship. I bought one for myself and gifted two to family members. Everyone loves it. Worth every penny.",
-            "author_name": "Fatima K.",
-            "author_location": "Toronto, CA"
-          }
-        },
-        "testimonial-3": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "Simple, elegant, and exactly what I needed. The feel in the hand is perfect — it never slips during sujood.",
-            "author_name": "Yusuf M.",
-            "author_location": "Dubai, UAE"
-          }
-        }
-      },
-      "block_order": ["testimonial-1", "testimonial-2", "testimonial-3"],
-      "settings": {
-        "heading": "Loved by the Community",
-        "subheading": "Trusted by thousands of Muslims around the world"
+        "heading": "Designed to Support Focused Worship",
+        "text": "<p>The Rakaat Counter is designed to help track prayer progress while you remain focused on salah. Its sensor-based design detects prayer movement discreetly and quietly, reducing the chance of losing count during longer prayers.</p>"
       }
     }
   },
-  "order": ["hero", "featured-product", "image-with-text", "testimonials"]
+  "order": ["hero", "featured-product", "image-with-text"]
 }
