@@ -686,6 +686,29 @@ h1, h2, h3, h4, h5, h6 {
   padding-block: var(--section-padding);
 }
 
+.hero--full {
+  min-height: 100vh;
+}
+
+.hero--full .hero__media {
+  min-height: 100vh;
+}
+
+.hero--full .hero__image {
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 768px) {
+  .hero--full {
+    min-height: 60vh;
+  }
+
+  .hero--full .hero__media {
+    min-height: 60vh;
+  }
+}
+
 .hero__content-inner {
   max-width: 680px;
 }

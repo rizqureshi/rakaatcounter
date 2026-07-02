@@ -2,6 +2,8 @@
   <div class="hero__media">
     {%- if section.settings.image != blank -%}
       {%- assign hero_img_alt = section.settings.image.alt | escape -%}
+      {%- assign hero_img_width = section.settings.image.width -%}
+      {%- assign hero_img_height = section.settings.image.height -%}
       {{
         section.settings.image
         | image_url: width: 1920
@@ -9,7 +11,11 @@
           class: 'hero__image',
           loading: 'eager',
           fetchpriority: 'high',
-          alt: hero_img_alt
+          alt: hero_img_alt,
+          widths: '750, 1100, 1500, 1920',
+          sizes: '100vw',
+          width: hero_img_width,
+          height: hero_img_height
       }}
     {%- else -%}
       <img
