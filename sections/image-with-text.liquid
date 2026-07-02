@@ -14,7 +14,14 @@
               alt: iwt_img_alt
           }}
         {%- else -%}
-          {{ 'product-1' | placeholder_svg_tag: 'image-with-text__placeholder' }}
+          <img
+            src="{{ 'enclosure.jpg' | asset_url }}"
+            class="image-with-text__image"
+            loading="lazy"
+            alt="Rakaat Counter device enclosure"
+            width="1554"
+            height="1012"
+          >
         {%- endif -%}
       </div>
 
