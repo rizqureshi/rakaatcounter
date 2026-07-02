@@ -1,0 +1,59 @@
+<section class="product-highlights section-padding" aria-label="{{ section.settings.heading }}">
+  <div class="container">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="product-highlights__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.text != blank -%}
+      <p class="product-highlights__intro">{{ section.settings.text }}</p>
+    {%- endif -%}
+
+    <ul class="product-highlights__list" role="list">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'highlight' and block.settings.text != blank -%}
+          <li class="product-highlights__item" {{ block.shopify_attributes }}>
+            <span class="product-highlights__icon" aria-hidden="true">✦</span>
+            <span class="product-highlights__text">{{ block.settings.text }}</span>
+          </li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product highlights",
+  "tag": "section",
+  "blocks": [
+    {
+      "type": "highlight",
+      "name": "Highlight",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Highlight text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product highlights"
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Designed for personal prayer focus"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Intro text"
+    }
+  ]
+}
+{% endschema %}

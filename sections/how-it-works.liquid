@@ -1,0 +1,73 @@
+<section class="how-it-works section-padding" aria-label="{{ section.settings.heading }}">
+  <div class="container">
+    <div class="how-it-works__header text-center">
+      {%- if section.settings.subheading != blank -%}
+        <p class="section-subheading-label">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2 class="section-heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+    </div>
+
+    <ol class="how-it-works__steps" role="list">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'step' -%}
+          <li class="how-it-works__step" {{ block.shopify_attributes }}>
+            <div class="how-it-works__step-number" aria-hidden="true">{{ forloop.index }}</div>
+            {%- if block.settings.heading != blank -%}
+              <h3 class="how-it-works__step-title">{{ block.settings.heading }}</h3>
+            {%- endif -%}
+            {%- if block.settings.text != blank -%}
+              <p class="how-it-works__step-text">{{ block.settings.text }}</p>
+            {%- endif -%}
+          </li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ol>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "How it works",
+  "tag": "section",
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Step heading",
+          "default": "Step"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Step description"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "How it works"
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Simple by design"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "How It Works"
+    }
+  ]
+}
+{% endschema %}
