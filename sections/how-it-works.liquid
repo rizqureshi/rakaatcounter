@@ -12,7 +12,18 @@
     <ol class="how-it-works__steps" role="list">
       {%- for block in section.blocks -%}
         {%- if block.type == 'step' -%}
-          <li class="how-it-works__step" {{ block.shopify_attributes }}>
+          <li class="how-it-works__step{% if block.settings.image != blank %} how-it-works__step--has-image{% endif %}" {{ block.shopify_attributes }}>
+            {%- if block.settings.image != blank -%}
+              {%- assign step_img_alt = block.settings.image.alt | escape -%}
+              {{
+                block.settings.image
+                | image_url: width: 600
+                | image_tag:
+                  class: 'how-it-works__step-image',
+                  loading: 'lazy',
+                  alt: step_img_alt
+              }}
+            {%- endif -%}
             <div class="how-it-works__step-number" aria-hidden="true">{{ forloop.index }}</div>
             {%- if block.settings.heading != blank -%}
               <h3 class="how-it-works__step-title">{{ block.settings.heading }}</h3>
@@ -36,6 +47,11 @@
       "type": "step",
       "name": "Step",
       "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Step image"
+        },
         {
           "type": "text",
           "id": "heading",
