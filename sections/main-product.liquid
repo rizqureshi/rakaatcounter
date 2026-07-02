@@ -145,21 +145,14 @@
           {%- endif -%}
         </div>
 
-        {%- comment -%} Star summary (placeholder — wire to a reviews app) {%- endcomment -%}
+        {%- comment -%} Rating — enable once a reviews app is connected {%- endcomment -%}
         {%- if section.settings.show_rating -%}
-          <div class="main-product__rating" aria-label="4.9 out of 5 stars">
-            <span class="rating-stars" aria-hidden="true">★★★★★</span>
-            <span class="rating-count">4.9 (124 reviews)</span>
+          <div class="main-product__rating" id="product-rating-widget">
+            {{- product.metafields.reviews.rating.value -}}
           </div>
         {%- endif -%}
 
-        <form
-          action="{{ routes.cart_add_url }}"
-          method="post"
-          id="main-product-form"
-          class="main-product__form"
-          data-product-url="{{ product.url }}"
-        >
+        {%- form 'product', product, id: 'main-product-form', class: 'main-product__form' -%}
           <input type="hidden" name="id" id="main-product-variant-id" value="{{ current_variant.id }}">
 
           {%- comment -%} Variant options {%- endcomment -%}
@@ -228,7 +221,7 @@
               {{ form | payment_button }}
             {%- endif -%}
           </div>
-        </form>
+        {%- endform -%}
 
         {%- comment -%} Trust badges {%- endcomment -%}
         {%- if section.settings.show_trust_badges -%}
@@ -258,6 +251,34 @@
               </summary>
               <div class="product-tab__body rte">
                 {{ product.description }}
+              </div>
+            </details>
+          {%- endif -%}
+
+          {%- assign has_specs = false -%}
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'spec' and block.settings.label != blank and block.settings.value != blank -%}
+              {%- assign has_specs = true -%}
+            {%- endif -%}
+          {%- endfor -%}
+
+          {%- if has_specs -%}
+            <details class="product-tab">
+              <summary class="product-tab__header">
+                Product Details
+                <svg class="product-tab__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+              </summary>
+              <div class="product-tab__body">
+                <dl class="product-specs">
+                  {%- for block in section.blocks -%}
+                    {%- if block.type == 'spec' and block.settings.label != blank and block.settings.value != blank -%}
+                      <div class="product-specs__row" {{ block.shopify_attributes }}>
+                        <dt class="product-specs__label">{{ block.settings.label }}</dt>
+                        <dd class="product-specs__value">{{ block.settings.value }}</dd>
+                      </div>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </dl>
               </div>
             </details>
           {%- endif -%}
@@ -327,6 +348,24 @@
           "label": "Tab content"
         }
       ]
+    },
+    {
+      "type": "spec",
+      "name": "Product specification",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Dimensions"
+        },
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Value",
+          "default": ""
+        }
+      ]
     }
   ],
   "settings": [
@@ -339,8 +378,8 @@
     {
       "type": "checkbox",
       "id": "show_rating",
-      "label": "Show star rating placeholder",
-      "default": true
+      "label": "Show product rating",
+      "default": false
     },
     {
       "type": "checkbox",

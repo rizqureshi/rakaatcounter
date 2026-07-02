@@ -119,6 +119,17 @@
      Add to Cart — Featured Product
      -------------------------------------------------------------------------- */
 
+  function showAtcError(message, nearEl) {
+    const existing = nearEl.parentElement.querySelector('.main-product__atc-error');
+    if (existing) existing.remove();
+    const el = document.createElement('p');
+    el.className = 'main-product__atc-error';
+    el.setAttribute('role', 'alert');
+    el.textContent = message;
+    nearEl.insertAdjacentElement('afterend', el);
+    setTimeout(() => el.remove(), 6000);
+  }
+
   const AddToCart = {
     init() {
       document.getElementById('featured-product-form')
@@ -147,9 +158,12 @@
               CartDrawer.updateCartCount(cart.item_count);
               await CartDrawer.refreshDrawer(cart);
               CartDrawer.open();
+            } else {
+              const data = await res.json().catch(() => ({}));
+              showAtcError(data.description || 'Unable to add this item to cart. Please try again.', btn);
             }
           } catch (err) {
-            console.error('Add to cart failed:', err);
+            showAtcError('Unable to add this item to cart. Please try again.', btn);
           } finally {
             btn.disabled    = false;
             btn.textContent = 'Add to Cart';
@@ -179,9 +193,11 @@
             CartDrawer.updateCartCount(cart.item_count);
             await CartDrawer.refreshDrawer(cart);
             CartDrawer.open();
+          } else {
+            showAtcError('Unable to add this item to cart. Please try again.', btn);
           }
         } catch (err) {
-          console.error('Quick add failed:', err);
+          showAtcError('Unable to add this item to cart. Please try again.', btn);
         } finally {
           btn.disabled    = false;
           btn.textContent = 'Add to Cart';
@@ -487,9 +503,12 @@
             CartDrawer.updateCartCount(cart.item_count);
             await CartDrawer.refreshDrawer(cart);
             CartDrawer.open();
+          } else {
+            const data = await res.json().catch(() => ({}));
+            showAtcError(data.description || 'Unable to add this item to cart. Please try again.', btn);
           }
         } catch (err) {
-          console.error('Add to cart failed:', err);
+          showAtcError('Unable to add this item to cart. Please try again.', btn);
         } finally {
           btn.disabled    = false;
           btn.textContent = 'Add to Cart';

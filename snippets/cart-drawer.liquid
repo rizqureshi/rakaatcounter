@@ -57,7 +57,7 @@
         <span id="cart-drawer-subtotal">{{ cart.total_price | money }}</span>
       </div>
       <p class="cart-drawer__tax-note">{{ 'cart.taxes_and_shipping' | t }}</p>
-      <a href="{{ routes.checkout }}" class="btn btn--primary btn--full">{{ 'cart.checkout' | t }}</a>
+      <a href="{{ routes.checkout_url }}" class="btn btn--primary btn--full">{{ 'cart.checkout' | t }}</a>
       <a href="{{ routes.cart_url }}" class="btn btn--secondary btn--full">{{ 'cart.view_cart' | t }}</a>
     </div>
   {%- endif -%}
