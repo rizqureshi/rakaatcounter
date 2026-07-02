@@ -50,6 +50,32 @@
           {{ section.settings.button_label }}
         </a>
       {%- endif -%}
+
+      {%- if section.settings.show_newsletter -%}
+        {%- form 'customer', class: 'hero__newsletter-form' -%}
+          {%- if form.posted_successfully? -%}
+            <p class="hero__newsletter-success">{{ 'newsletter.success' | t }}</p>
+          {%- else -%}
+            <div class="hero__newsletter-input-wrap">
+              <input
+                type="email"
+                name="contact[email]"
+                class="hero__newsletter-input"
+                placeholder="{{ 'newsletter.email_placeholder' | t }}"
+                required
+                aria-label="{{ 'newsletter.email_placeholder' | t }}"
+              >
+              <input type="hidden" name="contact[tags]" value="newsletter">
+              <button type="submit" class="hero__newsletter-btn">
+                {{ 'newsletter.subscribe' | t }}
+              </button>
+            </div>
+            {%- if form.errors -%}
+              <p class="hero__newsletter-error">{{ form.errors | default_errors }}</p>
+            {%- endif -%}
+          {%- endif -%}
+        {%- endform -%}
+      {%- endif -%}
     </div>
   </div>
 </section>
@@ -113,6 +139,12 @@
       "type": "url",
       "id": "button_link",
       "label": "Button link"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_newsletter",
+      "label": "Show email signup",
+      "default": true
     }
   ]
 }
