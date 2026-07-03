@@ -39,6 +39,7 @@
         "step-1": {
           "type": "step",
           "settings": {
+            "asset_filename": "placement-for-prayer.jpg",
             "heading": "Place the device",
             "text": "Position the Rakaat Counter near your prayer space before starting salah."
           }

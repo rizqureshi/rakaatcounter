@@ -3560,6 +3560,14 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.7;
 }
 
+.how-it-works__step-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-bottom: var(--space-6);
+  border-radius: var(--radius-md);
+}
+
 @media (max-width: 768px) {
   .how-it-works__steps {
     grid-template-columns: 1fr;
