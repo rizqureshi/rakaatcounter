@@ -47,6 +47,7 @@
         "step-2": {
           "type": "step",
           "settings": {
+            "asset_filename": "prostrating.jpg",
             "heading": "Begin your prayer",
             "text": "Pray naturally without holding a device or touching a counter."
           }
