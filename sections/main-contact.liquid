@@ -1,0 +1,166 @@
+<section class="main-contact section-padding">
+  <div class="container">
+    <div class="main-contact__grid">
+
+      {%- comment -%} Left — intro copy {%- endcomment -%}
+      <div class="main-contact__info">
+        <h1 class="main-contact__heading">{{ section.settings.heading }}</h1>
+        <p class="main-contact__intro">{{ section.settings.intro }}</p>
+
+        <div class="main-contact__details">
+          <p class="main-contact__company">{{ section.settings.company_name }}</p>
+          <p>{{ section.settings.location }}</p>
+
+          <dl class="main-contact__meta">
+            <div class="main-contact__meta-row">
+              <dt>Email</dt>
+              <dd><a href="mailto:{{ section.settings.email }}" class="main-contact__email-link">{{ section.settings.email }}</a></dd>
+            </div>
+            <div class="main-contact__meta-row">
+              <dt>Response time</dt>
+              <dd>{{ section.settings.response_time }}</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+
+      {%- comment -%} Right — contact form {%- endcomment -%}
+      <div class="main-contact__form-wrap">
+        {%- form 'contact', class: 'main-contact__form' -%}
+
+          {%- if form.posted_successfully? -%}
+            <div class="main-contact__success" role="alert">
+              <p>{{ 'contact.form.post_success' | t }}</p>
+            </div>
+          {%- else -%}
+
+            {%- if form.errors -%}
+              <div class="main-contact__errors" role="alert">
+                {{ form.errors | default_errors }}
+              </div>
+            {%- endif -%}
+
+            <div class="main-contact__field">
+              <label class="main-contact__label" for="contact-name">
+                Name <span aria-hidden="true">*</span>
+              </label>
+              <input
+                type="text"
+                id="contact-name"
+                name="contact[name]"
+                class="main-contact__input"
+                autocomplete="name"
+                required
+                value="{{ form.name }}"
+              >
+            </div>
+
+            <div class="main-contact__field">
+              <label class="main-contact__label" for="contact-email">
+                Email <span aria-hidden="true">*</span>
+              </label>
+              <input
+                type="email"
+                id="contact-email"
+                name="contact[email]"
+                class="main-contact__input"
+                autocomplete="email"
+                required
+                value="{{ form.email }}"
+              >
+            </div>
+
+            <div class="main-contact__field">
+              <label class="main-contact__label" for="contact-topic">Topic</label>
+              <select id="contact-topic" name="contact[Topic]" class="main-contact__select">
+                <option value="">Select a topic…</option>
+                <option value="Product question">Product question</option>
+                <option value="Order support">Order support</option>
+                <option value="Shipping">Shipping</option>
+                <option value="Returns">Returns</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <div class="main-contact__field">
+              <label class="main-contact__label" for="contact-order">
+                Order number <span class="main-contact__optional">(optional)</span>
+              </label>
+              <input
+                type="text"
+                id="contact-order"
+                name="contact[Order Number]"
+                class="main-contact__input"
+                placeholder="e.g. #1001"
+              >
+            </div>
+
+            <div class="main-contact__field">
+              <label class="main-contact__label" for="contact-message">
+                Message <span aria-hidden="true">*</span>
+              </label>
+              <textarea
+                id="contact-message"
+                name="contact[body]"
+                class="main-contact__textarea"
+                rows="6"
+                required
+              >{{ form.body }}</textarea>
+            </div>
+
+            <button type="submit" class="btn btn--primary main-contact__submit">
+              Send message
+            </button>
+
+          {%- endif -%}
+        {%- endform -%}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Contact page",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "We'd love to hear from you."
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Intro text",
+      "default": "For product questions, order support, or general inquiries about the Rakaat Counter, please use the form below or email us directly."
+    },
+    {
+      "type": "text",
+      "id": "company_name",
+      "label": "Company name",
+      "default": "Mavenbyte Technology Inc."
+    },
+    {
+      "type": "text",
+      "id": "location",
+      "label": "Location",
+      "default": "Barrie, Ontario, Canada"
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Support email",
+      "default": "support@rakacounter.com"
+    },
+    {
+      "type": "text",
+      "id": "response_time",
+      "label": "Response time note",
+      "default": "We usually reply within 1–2 business days."
+    }
+  ]
+}
+{% endschema %}
