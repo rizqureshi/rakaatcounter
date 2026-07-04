@@ -21,10 +21,10 @@
     "product-highlights": {
       "type": "product-highlights",
       "blocks": {
-        "h1": { "type": "highlight", "settings": { "text": "No phone required" } },
-        "h2": { "type": "highlight", "settings": { "text": "No app distractions" } },
-        "h3": { "type": "highlight", "settings": { "text": "Quiet operation" } },
-        "h4": { "type": "highlight", "settings": { "text": "Designed for personal prayer focus" } },
+        "h1": { "type": "highlight", "settings": { "asset_filename": "no-phone-required.png", "text": "No phone required" } },
+        "h2": { "type": "highlight", "settings": { "asset_filename": "no-app-distractions.png", "text": "No app distractions" } },
+        "h3": { "type": "highlight", "settings": { "asset_filename": "quiet-operation.png", "text": "Quiet operation" } },
+        "h4": { "type": "highlight", "settings": { "asset_filename": "personal-prayer-focus.png", "text": "Designed for personal prayer focus" } },
         "h5": { "type": "highlight", "settings": { "text": "Simple display for prayer progress" } }
       },
       "block_order": ["h1", "h2", "h3", "h4", "h5"],

@@ -11,7 +11,19 @@
       {%- for block in section.blocks -%}
         {%- if block.type == 'highlight' and block.settings.text != blank -%}
           <li class="product-highlights__item" {{ block.shopify_attributes }}>
-            <span class="product-highlights__icon" aria-hidden="true">✦</span>
+            {%- if block.settings.asset_filename != blank -%}
+              <img
+                src="{{ block.settings.asset_filename | asset_url }}"
+                class="product-highlights__icon-img"
+                width="40"
+                height="40"
+                loading="lazy"
+                alt=""
+                aria-hidden="true"
+              >
+            {%- else -%}
+              <span class="product-highlights__icon" aria-hidden="true">✦</span>
+            {%- endif -%}
             <span class="product-highlights__text">{{ block.settings.text }}</span>
           </li>
         {%- endif -%}
@@ -29,6 +41,11 @@
       "type": "highlight",
       "name": "Highlight",
       "settings": [
+        {
+          "type": "text",
+          "id": "asset_filename",
+          "label": "Icon image filename (e.g. my-icon.png)"
+        },
         {
           "type": "text",
           "id": "text",
