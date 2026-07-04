@@ -1,0 +1,16 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-contact",
+      "settings": {
+        "heading": "We'd love to hear from you.",
+        "intro": "For product questions, order support, or general inquiries about the Rakaat Counter, please use the form below or email us directly.",
+        "company_name": "Mavenbyte Technology Inc.",
+        "location": "Barrie, Ontario, Canada",
+        "email": "support@rakacounter.com",
+        "response_time": "We usually reply within 1–2 business days."
+      }
+    }
+  },
+  "order": ["main"]
+}
