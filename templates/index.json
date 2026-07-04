@@ -49,12 +49,13 @@
           "settings": {
             "asset_filename": "prostrating.jpg",
             "heading": "Begin your prayer",
-            "text": "Pray naturally without holding a device or touching a counter."
+            "text": "Pray naturally without holding a device or touching a counter. The range of the sensor is designed to detect your movement during sujood and automatically count your rakaats."
           }
         },
         "step-3": {
           "type": "step",
           "settings": {
+            "asset_filename": "rakaat-count.jpg",
             "heading": "Review your count",
             "text": "The display helps you keep track of sujood and rakaat progress, so you can stay focused."
           }
