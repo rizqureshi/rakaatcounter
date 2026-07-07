@@ -20,7 +20,7 @@
     <div class="main-product__grid">
 
       {%- comment -%} ── Media Gallery ── {%- endcomment -%}
-      <div class="main-product__gallery" id="product-gallery">
+      <div class="main-product__gallery{% if product.media.size <= 1 %} main-product__gallery--single{% endif %}" id="product-gallery">
 
         {%- comment -%} Thumbnails (left rail on desktop, strip on mobile) {%- endcomment -%}
         {%- if product.media.size > 1 -%}

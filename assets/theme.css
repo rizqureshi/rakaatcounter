@@ -1829,6 +1829,10 @@ h1, h2, h3, h4, h5, h6 {
   top: calc(var(--header-height) + var(--space-6));
 }
 
+.main-product__gallery--single {
+  grid-template-columns: 1fr;
+}
+
 .gallery__thumbs {
   display: flex;
   flex-direction: column;
@@ -1877,7 +1881,7 @@ h1, h2, h3, h4, h5, h6 {
 .gallery__image {
   width: 100%;
   aspect-ratio: 1;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
 }
 
