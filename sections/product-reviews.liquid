@@ -1,0 +1,53 @@
+<section class="product-reviews section-padding" aria-label="Customer reviews">
+  <div class="container">
+
+    <div class="product-reviews__header">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="product-reviews__heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+    </div>
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="product-reviews__app-blocks">
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+            {%- when '@app' -%}
+              {% render block %}
+          {%- endcase -%}
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      <div class="product-reviews__placeholder">
+        <span class="product-reviews__placeholder-icon" aria-hidden="true">✦</span>
+        <p class="product-reviews__placeholder-text">{{ section.settings.placeholder_text }}</p>
+      </div>
+    {%- endif -%}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Customer reviews",
+  "tag": "section",
+  "blocks": [
+    {
+      "type": "@app"
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Customer Reviews"
+    },
+    {
+      "type": "text",
+      "id": "placeholder_text",
+      "label": "Placeholder text (shown when no review app is connected)",
+      "default": "Customer reviews will appear here once a review app is connected."
+    }
+  ]
+}
+{% endschema %}

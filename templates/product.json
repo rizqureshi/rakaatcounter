@@ -8,6 +8,13 @@
         "show_share_buttons": true
       }
     },
+    "reviews": {
+      "type": "product-reviews",
+      "settings": {
+        "heading": "Customer Reviews",
+        "placeholder_text": "Customer reviews will appear here once a review app is connected."
+      }
+    },
     "product-recommendations": {
       "type": "product-recommendations",
       "settings": {
@@ -16,5 +23,5 @@
       }
     }
   },
-  "order": ["main", "product-recommendations"]
+  "order": ["main", "reviews", "product-recommendations"]
 }

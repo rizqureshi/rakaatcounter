@@ -3652,6 +3652,47 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* --------------------------------------------------------------------------
+   Product Reviews Section
+   -------------------------------------------------------------------------- */
+
+.product-reviews {
+  border-top: 1px solid var(--color-border);
+}
+
+.product-reviews__header {
+  margin-bottom: var(--space-8);
+}
+
+.product-reviews__heading {
+  font-family: var(--font-heading);
+  font-size: var(--text-2xl);
+  color: var(--color-primary);
+}
+
+.product-reviews__placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-12) var(--space-8);
+  border: 1px dashed rgba(11, 74, 74, 0.3);
+  border-radius: var(--radius-lg);
+  text-align: center;
+}
+
+.product-reviews__placeholder-icon {
+  font-size: var(--text-2xl);
+  color: var(--color-accent);
+  opacity: 0.6;
+}
+
+.product-reviews__placeholder-text {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  max-width: 340px;
+}
+
+/* --------------------------------------------------------------------------
    Contact Page
    -------------------------------------------------------------------------- */
 
