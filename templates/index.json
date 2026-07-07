@@ -57,7 +57,7 @@
           "settings": {
             "asset_filename": "rakaat-count.jpg",
             "heading": "Review your count",
-            "text": "The display helps you keep track of sujood and rakaat progress, so you can stay focused on your prayer. On the left side of the LCD display indicates the current number of Sujood and Rakaats completed, while the right side shows the total number of Rakaats performed. On the top right is the timer that shows the total time spent in prayer."
+            "text": "The display helps you keep track of sujood and rakaat progress, so you can stay focused on your prayer. The left side of the LCD display shows the current number of sujood and rakaats completed, while the right side shows the total number of rakaats performed. The top-right timer shows the total time spent in prayer."
           }
         }
       },
