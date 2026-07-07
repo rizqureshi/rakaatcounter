@@ -1221,7 +1221,7 @@ h1, h2, h3, h4, h5, h6 {
 .product-card__image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   transition: opacity var(--transition-slow), transform var(--transition-slow);
 }
 
