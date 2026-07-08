@@ -83,7 +83,7 @@
           "type": "faq",
           "settings": {
             "question": "Is it suitable for children or elderly users?",
-            "answer": "<p>Yes. The Rakaat Counter is simple to use for adults, elderly users, and children under adult supervision.. There are no sharp edges, no moving parts, and no screen glare or loud sounds. Elderly users and children learning to pray can both benefit from its straightforward display and quiet, hands-free operation.</p>"
+            "answer": "<p>Yes. The Rakaat Counter is simple to use for adults, elderly users, and children under adult supervision. It has no moving mechanical parts and is designed with a clear, quiet display for easy personal use. Elderly users and children learning to pray can both benefit from its straightforward display and quiet, hands-free operation.</p>"
           }
         }
       },
@@ -97,19 +97,12 @@
       "settings": {
         "heading": "Warranty & Returns",
         "warranty_heading": "Warranty",
-        "warranty_content": "<p>The Rakaat Counter is warranted against manufacturing defects for 30 days from the date of delivery. If your device arrives defective or stops functioning under normal use within the warranty period, contact us and we will arrange a replacement. The warranty does not cover physical damage resulting from misuse, impact, or unauthorized modification.</p>",
+        "warranty_content": "<p>The Rakaat Counter is warranted against manufacturing defects for 90 days from the date of delivery. If your device arrives defective or stops functioning under normal use within the warranty period, contact us and we will arrange a replacement. The warranty does not cover physical damage resulting from misuse, impact, or unauthorized modification.</p>",
         "returns_heading": "Returns",
         "returns_content": "<p>We accept returns within 30 days of delivery. Items must be in their original, undamaged condition. To initiate a return, email us at support@rakacounter.com with your order number. Refunds are processed once the returned item is received and inspected. Return shipping costs may apply unless the item arrived defective.</p>",
         "contact_note": "Questions about your order? We typically respond within 1–2 business days."
       }
-    },
-    "product-recommendations": {
-      "type": "product-recommendations",
-      "settings": {
-        "heading": "You May Also Like",
-        "products_to_show": 4
-      }
     }
   },
-  "order": ["main", "reviews", "product-faq", "product-warranty", "product-recommendations"]
+  "order": ["main", "reviews", "product-faq", "product-warranty"]
 }
