@@ -17,6 +17,75 @@
         "feedback_label": "Send us your feedback"
       }
     },
+    "product-faq": {
+      "type": "product-faq",
+      "blocks": {
+        "faq-1": {
+          "type": "faq",
+          "settings": {
+            "question": "Where should I place the Rakaat Counter?",
+            "answer": "<p>Place the device on a flat, stable surface near your prayer space, within the sensor’s detection range. It does not need to be held or touched during salah — simply position it before you begin and let it track your prayer naturally.</p>"
+          }
+        },
+        "faq-2": {
+          "type": "faq",
+          "settings": {
+            "question": "Do I need a phone or app to use it?",
+            "answer": "<p>No. The Rakaat Counter is a fully standalone device. There is no app, no Bluetooth, and no internet connection required. Your phone can remain put away throughout your prayer.</p>"
+          }
+        },
+        "faq-3": {
+          "type": "faq",
+          "settings": {
+            "question": "Will it make noise during my prayer?",
+            "answer": "<p>No. The device operates silently. There are no beeps, vibrations, or audio alerts of any kind. It is designed to remain unobtrusive throughout your salah.</p>"
+          }
+        },
+        "faq-4": {
+          "type": "faq",
+          "settings": {
+            "question": "How long does the battery last?",
+            "answer": "<p>Battery life depends on frequency of use. The device is designed for regular daily use across all five prayers. We recommend checking the battery level periodically and replacing or recharging when the low battery indicator appears.</p>"
+          }
+        },
+        "faq-5": {
+          "type": "faq",
+          "settings": {
+            "question": "What does the reset button do?",
+            "answer": "<p>The reset button clears the current count so you can start fresh. Press it before beginning each salah to ensure your rakaat and sujood counts begin from zero.</p>"
+          }
+        },
+        "faq-6": {
+          "type": "faq",
+          "settings": {
+            "question": "Can I use it for Taraweeh or Qiyam prayers?",
+            "answer": "<p>Yes. The Rakaat Counter is well-suited for longer voluntary prayers such as Taraweeh and Qiyam al-Layl. The display helps you track rakaat progress during extended sessions without interrupting your focus.</p>"
+          }
+        },
+        "faq-7": {
+          "type": "faq",
+          "settings": {
+            "question": "What should I do if my device arrives defective or stops working?",
+            "answer": "<p>Please reach out to us at support@rakacounter.com with your order number and a brief description of the issue. We respond within 1–2 business days. See the Warranty &amp; Returns section on this page for full details.</p>"
+          }
+        }
+      },
+      "block_order": ["faq-1", "faq-2", "faq-3", "faq-4", "faq-5", "faq-6", "faq-7"],
+      "settings": {
+        "heading": "Frequently Asked Questions"
+      }
+    },
+    "product-warranty": {
+      "type": "product-warranty",
+      "settings": {
+        "heading": "Warranty & Returns",
+        "warranty_heading": "Warranty",
+        "warranty_content": "<p>The Rakaat Counter is warranted against manufacturing defects. If your device arrives defective or stops functioning under normal use within the warranty period, contact us and we will arrange a replacement. The warranty does not cover physical damage resulting from misuse, impact, or unauthorized modification.</p>",
+        "returns_heading": "Returns",
+        "returns_content": "<p>We accept returns within 30 days of delivery. Items must be in their original, undamaged condition. To initiate a return, email us at support@rakacounter.com with your order number. Refunds are processed once the returned item is received and inspected. Return shipping costs may apply unless the item arrived defective.</p>",
+        "contact_note": "Questions about your order? We typically respond within 1–2 business days."
+      }
+    },
     "product-recommendations": {
       "type": "product-recommendations",
       "settings": {
@@ -25,5 +94,5 @@
       }
     }
   },
-  "order": ["main", "reviews", "product-recommendations"]
+  "order": ["main", "reviews", "product-faq", "product-warranty", "product-recommendations"]
 }

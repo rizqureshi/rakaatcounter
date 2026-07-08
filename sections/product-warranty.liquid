@@ -1,0 +1,79 @@
+<section class="product-warranty section-padding" aria-labelledby="warranty-heading">
+  <div class="container">
+
+    {%- if section.settings.heading != blank -%}
+      <h2 class="product-warranty__heading" id="warranty-heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+
+    <div class="product-warranty__grid">
+      {%- if section.settings.warranty_heading != blank or section.settings.warranty_content != blank -%}
+        <div class="product-warranty__col">
+          {%- if section.settings.warranty_heading != blank -%}
+            <h3 class="product-warranty__col-heading">{{ section.settings.warranty_heading }}</h3>
+          {%- endif -%}
+          {%- if section.settings.warranty_content != blank -%}
+            <div class="product-warranty__body rte">{{ section.settings.warranty_content }}</div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.returns_heading != blank or section.settings.returns_content != blank -%}
+        <div class="product-warranty__col">
+          {%- if section.settings.returns_heading != blank -%}
+            <h3 class="product-warranty__col-heading">{{ section.settings.returns_heading }}</h3>
+          {%- endif -%}
+          {%- if section.settings.returns_content != blank -%}
+            <div class="product-warranty__body rte">{{ section.settings.returns_content }}</div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.contact_note != blank -%}
+      <p class="product-warranty__contact-note">{{ section.settings.contact_note }}</p>
+    {%- endif -%}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Warranty & Returns",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section heading",
+      "default": "Warranty & Returns"
+    },
+    {
+      "type": "text",
+      "id": "warranty_heading",
+      "label": "Warranty column heading",
+      "default": "Warranty"
+    },
+    {
+      "type": "richtext",
+      "id": "warranty_content",
+      "label": "Warranty content"
+    },
+    {
+      "type": "text",
+      "id": "returns_heading",
+      "label": "Returns column heading",
+      "default": "Returns"
+    },
+    {
+      "type": "richtext",
+      "id": "returns_content",
+      "label": "Returns content"
+    },
+    {
+      "type": "text",
+      "id": "contact_note",
+      "label": "Contact note (shown below the grid)"
+    }
+  ]
+}
+{% endschema %}
