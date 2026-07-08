@@ -20,6 +20,11 @@
       <div class="product-reviews__placeholder">
         <span class="product-reviews__placeholder-icon" aria-hidden="true">✦</span>
         <p class="product-reviews__placeholder-text">{{ section.settings.placeholder_text }}</p>
+        {%- if section.settings.feedback_link != blank -%}
+          <a href="{{ section.settings.feedback_link }}" class="product-reviews__feedback-btn">
+            {{ section.settings.feedback_label }}
+          </a>
+        {%- endif -%}
       </div>
     {%- endif -%}
 
@@ -47,6 +52,17 @@
       "id": "placeholder_text",
       "label": "Placeholder text (shown when no review app is connected)",
       "default": "Customer reviews will appear here once a review app is connected."
+    },
+    {
+      "type": "url",
+      "id": "feedback_link",
+      "label": "Feedback link (e.g. your contact page)"
+    },
+    {
+      "type": "text",
+      "id": "feedback_label",
+      "label": "Feedback button label",
+      "default": "Send us your feedback"
     }
   ]
 }

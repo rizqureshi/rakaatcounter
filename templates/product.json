@@ -12,7 +12,9 @@
       "type": "product-reviews",
       "settings": {
         "heading": "Customer Reviews",
-        "placeholder_text": "Customer reviews will appear here once a review app is connected."
+        "placeholder_text": "Customer reviews will appear here once a review app is connected.",
+        "feedback_link": "/pages/contact",
+        "feedback_label": "Send us your feedback"
       }
     },
     "product-recommendations": {

@@ -3693,6 +3693,26 @@ h1, h2, h3, h4, h5, h6 {
   max-width: 340px;
 }
 
+.product-reviews__feedback-btn {
+  display: inline-block;
+  margin-top: var(--space-2);
+  padding: 0.55rem 1.25rem;
+  background: transparent;
+  color: #0B4A4A;
+  border: 1px solid rgba(11, 74, 74, 0.45);
+  border-radius: 999px;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.product-reviews__feedback-btn:hover {
+  background: #0B4A4A;
+  color: #FAF7F2;
+  border-color: #0B4A4A;
+}
+
 /* --------------------------------------------------------------------------
    Contact Page
    -------------------------------------------------------------------------- */
