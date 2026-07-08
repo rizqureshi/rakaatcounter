@@ -2,7 +2,9 @@
   "sections": {
     "main": {
       "type": "main-404",
-      "settings": {}
+      "settings": {
+        "show_search": false
+      }
     }
   },
   "order": ["main"]
