@@ -8,7 +8,7 @@
         "spec-3": { "type": "spec", "settings": { "label": "Detection", "value": "Sensor-based sujood/rakaat tracking" } },
         "spec-4": { "type": "spec", "settings": { "label": "Power", "value": "9V battery" } },
         "spec-5": { "type": "spec", "settings": { "label": "Dimensions", "value": "14 × 10 × 6.5 cm" } },
-        "spec-6": { "type": "spec", "settings": { "label": "Included", "value": "Rakaat Counter device, instruction guide, battery" } },
+        "spec-6": { "type": "spec", "settings": { "label": "Included", "value": "Rakaat Counter device, instruction guide" } },
         "spec-7": { "type": "spec", "settings": { "label": "Use", "value": "Indoor personal prayer use" } }
       },
       "block_order": ["spec-1", "spec-2", "spec-3", "spec-4", "spec-5", "spec-6", "spec-7"],
@@ -55,7 +55,7 @@
           "type": "faq",
           "settings": {
             "question": "How long does the battery last?",
-            "answer": "<p>Battery life depends on frequency of use. The device is designed for regular daily use across all five prayers. We recommend checking the battery level periodically and replacing or recharging when the low battery indicator appears.</p>"
+            "answer": "<p>Battery life depends on frequency of use. The device is designed for regular daily use across all five prayers. We recommend recharging when the low battery indicator appears (see manual for more details).</p>"
           }
         },
         "faq-5": {
@@ -83,7 +83,7 @@
           "type": "faq",
           "settings": {
             "question": "Is it suitable for children or elderly users?",
-            "answer": "<p>Yes. The Rakaat Counter is simple to use and safe for all ages. There are no sharp edges, no moving parts, and no screen glare or loud sounds. Elderly users and children learning to pray can both benefit from its straightforward display and quiet, hands-free operation.</p>"
+            "answer": "<p>Yes. The Rakaat Counter is simple to use for adults, elderly users, and children under adult supervision.. There are no sharp edges, no moving parts, and no screen glare or loud sounds. Elderly users and children learning to pray can both benefit from its straightforward display and quiet, hands-free operation.</p>"
           }
         }
       },
@@ -97,7 +97,7 @@
       "settings": {
         "heading": "Warranty & Returns",
         "warranty_heading": "Warranty",
-        "warranty_content": "<p>The Rakaat Counter is warranted against manufacturing defects. If your device arrives defective or stops functioning under normal use within the warranty period, contact us and we will arrange a replacement. The warranty does not cover physical damage resulting from misuse, impact, or unauthorized modification.</p>",
+        "warranty_content": "<p>The Rakaat Counter is warranted against manufacturing defects for 30 days from the date of delivery. If your device arrives defective or stops functioning under normal use within the warranty period, contact us and we will arrange a replacement. The warranty does not cover physical damage resulting from misuse, impact, or unauthorized modification.</p>",
         "returns_heading": "Returns",
         "returns_content": "<p>We accept returns within 30 days of delivery. Items must be in their original, undamaged condition. To initiate a return, email us at support@rakacounter.com with your order number. Refunds are processed once the returned item is received and inspected. Return shipping costs may apply unless the item arrived defective.</p>",
         "contact_note": "Questions about your order? We typically respond within 1–2 business days."
