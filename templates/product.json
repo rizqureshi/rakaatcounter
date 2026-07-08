@@ -2,6 +2,16 @@
   "sections": {
     "main": {
       "type": "main-product",
+      "blocks": {
+        "spec-1": { "type": "spec", "settings": { "label": "Display", "value": "LCD display" } },
+        "spec-2": { "type": "spec", "settings": { "label": "Controls", "value": "On/off button and reset button" } },
+        "spec-3": { "type": "spec", "settings": { "label": "Detection", "value": "Sensor-based sujood/rakaat tracking" } },
+        "spec-4": { "type": "spec", "settings": { "label": "Power", "value": "9V battery" } },
+        "spec-5": { "type": "spec", "settings": { "label": "Dimensions", "value": "14 × 10 × 6.5 cm" } },
+        "spec-6": { "type": "spec", "settings": { "label": "Included", "value": "Rakaat Counter device, instruction guide, battery" } },
+        "spec-7": { "type": "spec", "settings": { "label": "Use", "value": "Indoor personal prayer use" } }
+      },
+      "block_order": ["spec-1", "spec-2", "spec-3", "spec-4", "spec-5", "spec-6", "spec-7"],
       "settings": {
         "show_vendor": true,
         "show_trust_badges": true,
