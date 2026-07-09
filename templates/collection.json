@@ -4,7 +4,7 @@
       "type": "main-collection",
       "settings": {
         "products_per_page": 12,
-        "columns_desktop": 3,
+        "columns_desktop": 1,
         "columns_mobile": "2",
         "show_vendor": false,
         "enable_filtering": false,

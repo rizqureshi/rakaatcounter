@@ -1,7 +1,7 @@
 <section class="main-collection" aria-label="{{ collection.title }}">
 
   {%- comment -%} Collection banner {%- endcomment -%}
-  {%- if collection.image or section.settings.show_collection_description -%}
+  {%- if collection.image or (section.settings.show_collection_description and collection.description != blank) -%}
     <div class="collection-hero">
       {%- if collection.image -%}
         <div class="collection-hero__media">
@@ -225,7 +225,7 @@
       "type": "range",
       "id": "columns_desktop",
       "label": "Columns on desktop",
-      "min": 2,
+      "min": 1,
       "max": 4,
       "step": 1,
       "default": 3
