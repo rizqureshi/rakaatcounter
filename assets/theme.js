@@ -42,10 +42,12 @@
         const decreaseBtn = e.target.closest('[data-action="decrease"]');
         const increaseBtn = e.target.closest('[data-action="increase"]');
         const removeBtn   = e.target.closest('[data-remove-item]');
+        const closeBtn    = e.target.closest('[data-close-cart]');
 
         if (decreaseBtn) this.updateQty(decreaseBtn, -1);
         if (increaseBtn) this.updateQty(increaseBtn, +1);
         if (removeBtn)   this.removeItem(removeBtn.dataset.removeItem);
+        if (closeBtn)    this.close();
       });
     },
 
