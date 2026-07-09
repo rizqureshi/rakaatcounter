@@ -58,7 +58,7 @@
       </div>
       <p class="cart-drawer__tax-note">{{ 'cart.taxes_and_shipping' | t }}</p>
       <a href="{{ routes.checkout_url }}" class="btn btn--primary btn--full">{{ 'cart.checkout' | t }}</a>
-      <a href="{{ routes.cart_url }}" class="btn btn--secondary btn--full">{{ 'cart.view_cart' | t }}</a>
+      <button type="button" class="btn btn--secondary btn--full" data-close-cart>{{ 'cart.continue_shopping' | t }}</button>
     </div>
   {%- endif -%}
 </div>
