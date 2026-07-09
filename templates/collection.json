@@ -7,6 +7,7 @@
         "columns_desktop": 1,
         "columns_mobile": "2",
         "show_vendor": false,
+        "show_collection_description": false,
         "enable_filtering": false,
         "enable_sorting": false
       }

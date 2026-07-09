@@ -1,7 +1,7 @@
 <section class="main-collection" aria-label="{{ collection.title }}">
 
   {%- comment -%} Collection banner {%- endcomment -%}
-  {%- if collection.image or (section.settings.show_collection_description and collection.description != blank) -%}
+  {%- if collection.image or section.settings.show_collection_description -%}
     <div class="collection-hero">
       {%- if collection.image -%}
         <div class="collection-hero__media">
