@@ -47,7 +47,7 @@
         if (decreaseBtn) this.updateQty(decreaseBtn, -1);
         if (increaseBtn) this.updateQty(increaseBtn, +1);
         if (removeBtn)   this.removeItem(removeBtn.dataset.removeItem);
-        if (closeBtn)    this.close();
+        if (closeBtn)    { e.preventDefault(); this.close(); }
       });
     },
 

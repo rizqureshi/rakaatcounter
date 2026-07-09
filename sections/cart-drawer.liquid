@@ -45,7 +45,7 @@
     {%- else -%}
       <div class="cart-drawer__empty">
         <p>{{ 'cart.empty' | t }}</p>
-        <a href="{{ routes.collections_url }}" class="btn btn--primary" data-close-cart>{{ 'cart.continue_shopping' | t }}</a>
+        <button type="button" class="btn btn--primary" data-close-cart>{{ 'cart.continue_shopping' | t }}</button>
       </div>
     {%- endif -%}
   </div>
