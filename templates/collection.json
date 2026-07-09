@@ -7,8 +7,8 @@
         "columns_desktop": 3,
         "columns_mobile": "2",
         "show_vendor": false,
-        "enable_filtering": true,
-        "enable_sorting": true
+        "enable_filtering": false,
+        "enable_sorting": false
       }
     }
   },
