@@ -155,6 +155,11 @@
         "type": "url",
         "id": "social_tiktok",
         "label": "TikTok URL"
+      },
+      {
+        "type": "url",
+        "id": "social_x",
+        "label": "X (Twitter) URL"
       }
     ]
   }

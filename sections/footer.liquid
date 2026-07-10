@@ -38,6 +38,11 @@
               {%- render 'icon-tiktok' -%}
             </a>
           {%- endif -%}
+          {%- if settings.social_x != blank -%}
+            <a href="{{ settings.social_x }}" class="footer__social-link" aria-label="X (Twitter)" target="_blank" rel="noopener">
+              {%- render 'icon-x' -%}
+            </a>
+          {%- endif -%}
         </div>
       </div>
 
