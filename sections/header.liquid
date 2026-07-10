@@ -80,9 +80,7 @@
         data-tooltip="Shopping Basket"
       >
         {%- render 'icon-cart' -%}
-        {%- if cart.item_count > 0 -%}
-          <span class="header__cart-count" aria-hidden="true">{{ cart.item_count }}</span>
-        {%- endif -%}
+        <span class="header__cart-count" aria-hidden="true" style="{% unless cart.item_count > 0 %}display:none{% endunless %}">{{ cart.item_count }}</span>
       </button>
     </div>
   </div>
