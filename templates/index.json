@@ -25,8 +25,8 @@
         "h1": { "type": "highlight", "settings": { "asset_filename": "no-phone-required.png", "text": "No phone required" } },
         "h2": { "type": "highlight", "settings": { "asset_filename": "no-app-distractions.png", "text": "No app distractions" } },
         "h3": { "type": "highlight", "settings": { "asset_filename": "quiet-operation.png", "text": "Quiet operation" } },
-        "h4": { "type": "highlight", "settings": { "asset_filename": "personal-prayer-focus.png", "text": "Personally tested through over 1,800 prayers" } },
-        "h5": { "type": "highlight", "settings": { "asset_filename": "rakaat-count.jpg", "text": "No observed miscounting during extended daily use" } }
+        "h4": { "type": "highlight", "settings": { "asset_filename": "1800-prayers.jpg", "text": "Personally tested through over 1,800 prayers" } },
+        "h5": { "type": "highlight", "settings": { "asset_filename": "accurate-count.jpg", "text": "No observed miscounting during extended daily use" } }
       },
       "block_order": ["h1", "h2", "h3", "h4", "h5"],
       "settings": {
