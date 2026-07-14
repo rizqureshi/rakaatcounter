@@ -19,8 +19,10 @@
     "heading_font": "'Playfair Display', Georgia, serif",
     "body_font": "'DM Sans', sans-serif",
     "body_font_size": 16,
+    "logo": "shopify://shop_images/logo.png",
     "logo_width": 160,
     "sticky_header": true,
+    "favicon": "shopify://shop_images/favicon.jpg",
     "cart_type": "drawer",
     "sections": {
       "announcement-bar": {
