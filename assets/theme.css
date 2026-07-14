@@ -382,8 +382,8 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Logo */
 .header__logo {
-  grid-column: 2;
-  justify-self: center;
+  grid-column: 1;
+  justify-self: start;
 }
 
 .header__menu-toggle {
@@ -465,7 +465,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .header__logo-image {
-  max-height: 52px;
+  max-height: 60px;
   width: auto;
   display: block;
 }
@@ -1735,6 +1735,11 @@ h1, h2, h3, h4, h5, h6 {
 
   .header__menu-toggle {
     display: flex;
+  }
+
+  .header__logo {
+    grid-column: 2;
+    justify-self: center;
   }
 
   .header__logo-tagline {
