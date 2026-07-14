@@ -3680,6 +3680,10 @@ h1, h2, h3, h4, h5, h6 {
   border-top: 1px solid var(--color-border);
 }
 
+.product-reviews__app-blocks {
+  font-size: 0.875rem;
+}
+
 .product-reviews__header {
   margin-bottom: var(--space-8);
 }
