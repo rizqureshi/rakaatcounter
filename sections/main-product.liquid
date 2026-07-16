@@ -204,21 +204,27 @@
 
           {%- comment -%} Add to cart + Buy now {%- endcomment -%}
           <div class="main-product__cta">
-            <button
-              type="submit"
-              id="main-product-atc-btn"
-              class="btn btn--primary btn--full main-product__atc-btn"
-              {% unless current_variant.available %}disabled{% endunless %}
-            >
-              {%- if current_variant.available -%}
-                {{ 'products.add_to_cart' | t }}
-              {%- else -%}
-                {{ 'products.sold_out' | t }}
-              {%- endif -%}
-            </button>
+            {%- if section.settings.pre_launch_mode -%}
+              <button type="button" class="btn btn--primary btn--full main-product__atc-btn" disabled>
+                Coming Soon
+              </button>
+            {%- else -%}
+              <button
+                type="submit"
+                id="main-product-atc-btn"
+                class="btn btn--primary btn--full main-product__atc-btn"
+                {% unless current_variant.available %}disabled{% endunless %}
+              >
+                {%- if current_variant.available -%}
+                  {{ 'products.add_to_cart' | t }}
+                {%- else -%}
+                  {{ 'products.sold_out' | t }}
+                {%- endif -%}
+              </button>
 
-            {%- if section.settings.show_dynamic_checkout -%}
-              {{ form | payment_button }}
+              {%- if section.settings.show_dynamic_checkout -%}
+                {{ form | payment_button }}
+              {%- endif -%}
             {%- endif -%}
           </div>
         {%- endform -%}
@@ -390,6 +396,12 @@
       "type": "checkbox",
       "id": "show_rating",
       "label": "Show product rating",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "pre_launch_mode",
+      "label": "Pre-launch mode (disables Add to Cart)",
       "default": false
     },
     {
