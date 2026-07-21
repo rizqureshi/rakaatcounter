@@ -69,16 +69,15 @@
 
     {%- comment -%} Header actions {%- endcomment -%}
     <div class="header__actions">
-      <a href="{{ routes.account_url }}" class="header__icon-btn" aria-label="{{ 'accessibility.account' | t }}" data-tooltip="Account">
+      <a href="{{ routes.account_url }}" class="header__icon-btn" aria-label="{{ 'accessibility.account' | t }}">
         {%- render 'icon-account' -%}
       </a>
 
       <button
         class="header__icon-btn header__cart-btn"
-        aria-label="{{ 'accessibility.cart' | t }} ({{ cart.item_count }})"
+        aria-label="{{ 'accessibility.cart' | t }} ({{ cart.item_count }} item{% if cart.item_count != 1 %}s{% endif %})"
         aria-controls="cart-drawer"
         aria-expanded="false"
-        data-tooltip="Shopping Basket"
       >
         {%- render 'icon-cart' -%}
         <span class="header__cart-count" aria-hidden="true" style="{% unless cart.item_count > 0 %}display:none{% endunless %}">{{ cart.item_count }}</span>
