@@ -236,30 +236,43 @@
 
     updateVariant(form) {
       const selected = {};
+      const optionNames = [];
       form.querySelectorAll('.product-option__value.selected').forEach(btn => {
         selected[btn.dataset.optionName] = btn.dataset.optionValue;
+        optionNames.push(btn.dataset.optionName);
       });
 
-      // Shopify variant matching is handled server-side; JS here only updates UI
-      // For full variant switching, integrate with Shopify's variant JSON endpoint
+      // Shopify variant matching via JSON endpoint
       const variantId = form.querySelector('[name="id"]')?.value;
       if (variantId) {
         fetch(`/products/${window.location.pathname.split('/products/')[1]}.js`)
           .then(r => r.json())
           .then(product => {
-            const match = product.variants.find(v =>
-              v.options.every((opt, i) => opt === Object.values(selected)[i])
-            );
+            // Match variant by option names and values
+            const match = product.variants.find(v => {
+              return v.options.every((optValue, index) => {
+                const optionName = product.options[index];
+                return optValue === selected[optionName];
+              });
+            });
+            
             if (match) {
-              form.querySelector('#featured-product-variant-id').value = match.id;
+              // Update hidden variant ID field
+              const idField = form.querySelector('[name="id"]');
+              if (idField) idField.value = match.id;
+              
+              // Update price display
               const priceEl = document.getElementById('featured-product-price');
-              if (priceEl) {
+              if (priceEl && match.price !== undefined) {
                 const formatted = new Intl.NumberFormat(
                   document.documentElement.lang,
                   { style: 'currency', currency: window.Shopify?.currency?.active || 'USD' }
                 ).format(match.price / 100);
-                priceEl.querySelector('.price').textContent = formatted;
+                const priceSpan = priceEl.querySelector('.price');
+                if (priceSpan) priceSpan.textContent = formatted;
               }
+              
+              // Update add to cart button state
               const addBtn = form.querySelector('[type="submit"]');
               if (addBtn) {
                 addBtn.disabled = !match.available;
@@ -267,7 +280,7 @@
               }
             }
           })
-          .catch(() => {});
+          .catch(err => console.error('Variant fetch error:', err));
       }
     },
   };
@@ -304,11 +317,28 @@
       const nav    = document.getElementById('mobile-nav');
       if (!toggle || !nav) return;
 
+      // Main menu toggle
       toggle.addEventListener('click', () => {
         const isOpen = toggle.getAttribute('aria-expanded') === 'true';
         toggle.setAttribute('aria-expanded', String(!isOpen));
         nav.setAttribute('aria-hidden', String(isOpen));
         nav.classList.toggle('is-open', !isOpen);
+      });
+
+      // Submenu toggle buttons
+      document.querySelectorAll('[data-submenu-toggle]').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+          btn.setAttribute('aria-expanded', String(!isExpanded));
+          
+          // Toggle submenu visibility
+          const submenu = btn.closest('.mobile-nav__item')?.querySelector('.mobile-nav__sub');
+          if (submenu) {
+            submenu.setAttribute('aria-hidden', String(isExpanded));
+            submenu.classList.toggle('is-open', !isExpanded);
+          }
+        });
       });
     },
   };
