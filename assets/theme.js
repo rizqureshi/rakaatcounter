@@ -6,6 +6,22 @@
   'use strict';
 
   /* --------------------------------------------------------------------------
+     Utility: Debounce Helper
+     -------------------------------------------------------------------------- */
+
+  function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+      const later = () => {
+        clearTimeout(timeout);
+        func(...args);
+      };
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    };
+  }
+
+  /* --------------------------------------------------------------------------
      Cart Drawer
      -------------------------------------------------------------------------- */
 
@@ -14,6 +30,8 @@
     overlay:   null,
     openBtns:  null,
     closeBtns: null,
+    isUpdating: false,
+    updateQueue: null,
 
     init() {
       this.drawer   = document.getElementById('cart-drawer');
@@ -44,11 +62,20 @@
         const removeBtn   = e.target.closest('[data-remove-item]');
         const closeBtn    = e.target.closest('[data-close-cart]');
 
-        if (decreaseBtn) this.updateQty(decreaseBtn, -1);
-        if (increaseBtn) this.updateQty(increaseBtn, +1);
-        if (removeBtn)   this.removeItem(removeBtn.dataset.removeItem);
+        if (decreaseBtn) this.debouncedUpdateQty(decreaseBtn, -1);
+        if (increaseBtn) this.debouncedUpdateQty(increaseBtn, +1);
+        if (removeBtn)   this.debouncedRemoveItem(removeBtn.dataset.removeItem);
         if (closeBtn)    { e.preventDefault(); this.close(); }
       });
+
+      // Create debounced versions of update functions (300ms debounce)
+      this.debouncedUpdateQty = debounce((btn, delta) => {
+        this.updateQty(btn, delta);
+      }, 300);
+
+      this.debouncedRemoveItem = debounce((key) => {
+        this.removeItem(key);
+      }, 300);
     },
 
     open() {
@@ -81,6 +108,14 @@
     },
 
     async updateCartItem(key, quantity) {
+      // Prevent concurrent requests (race condition protection)
+      if (this.isUpdating) {
+        console.warn('Cart update already in progress, please wait...');
+        return;
+      }
+
+      this.isUpdating = true;
+
       try {
         const res = await fetch('/cart/change.js', {
           method: 'POST',
@@ -92,6 +127,8 @@
         this.updateCartCount(cart.item_count);
       } catch (err) {
         console.error('Cart update failed:', err);
+      } finally {
+        this.isUpdating = false;
       }
     },
 
@@ -133,14 +170,24 @@
   }
 
   const AddToCart = {
+    isAddingToCart: false,
+
     init() {
       document.getElementById('featured-product-form')
         ?.addEventListener('submit', async (e) => {
           e.preventDefault();
+          
+          // Prevent concurrent add-to-cart requests
+          if (this.isAddingToCart) {
+            console.warn('Add to cart already in progress...');
+            return;
+          }
+
           const form   = e.target;
           const btn    = form.querySelector('[type="submit"]');
           const formData = new FormData(form);
 
+          this.isAddingToCart = true;
           btn.disabled   = true;
           btn.textContent = 'Adding...';
 
@@ -167,15 +214,20 @@
           } catch (err) {
             showAtcError('Unable to add this item to cart. Please try again.', btn);
           } finally {
+            this.isAddingToCart = false;
             btn.disabled    = false;
             btn.textContent = 'Add to Cart';
           }
         });
 
-      // Quick-add from product cards
+      // Quick-add from product cards with debounce
+      let addToCartTimeout;
       document.addEventListener('click', async (e) => {
         const btn = e.target.closest('.product-card__add-btn');
         if (!btn) return;
+
+        // Prevent rapid clicks
+        if (btn.disabled) return;
 
         const id = btn.dataset.productId;
         if (!id) return;
@@ -183,27 +235,32 @@
         btn.disabled    = true;
         btn.textContent = '...';
 
-        try {
-          const res = await fetch('/cart/add.js', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ id, quantity: 1 }),
-          });
-          if (res.ok) {
-            const cartRes = await fetch('/cart.js');
-            const cart    = await cartRes.json();
-            CartDrawer.updateCartCount(cart.item_count);
-            await CartDrawer.refreshDrawer(cart);
-            CartDrawer.open();
-          } else {
+        // Debounce rapid button clicks (prevent multiple simultaneous requests)
+        clearTimeout(addToCartTimeout);
+        
+        addToCartTimeout = setTimeout(async () => {
+          try {
+            const res = await fetch('/cart/add.js', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ id, quantity: 1 }),
+            });
+            if (res.ok) {
+              const cartRes = await fetch('/cart.js');
+              const cart    = await cartRes.json();
+              CartDrawer.updateCartCount(cart.item_count);
+              await CartDrawer.refreshDrawer(cart);
+              CartDrawer.open();
+            } else {
+              showAtcError('Unable to add this item to cart. Please try again.', btn);
+            }
+          } catch (err) {
             showAtcError('Unable to add this item to cart. Please try again.', btn);
+          } finally {
+            btn.disabled    = false;
+            btn.textContent = 'Add to Cart';
           }
-        } catch (err) {
-          showAtcError('Unable to add this item to cart. Please try again.', btn);
-        } finally {
-          btn.disabled    = false;
-          btn.textContent = 'Add to Cart';
-        }
+        }, 300); // 300ms debounce to prevent rapid-fire requests
       });
     },
   };
