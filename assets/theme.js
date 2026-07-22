@@ -22,6 +22,32 @@
   }
 
   /* --------------------------------------------------------------------------
+     Accessibility: Live Region Announcements
+     -------------------------------------------------------------------------- */
+
+  const A11yAnnouncer = {
+    announce(message, region = 'polite') {
+      // Create or get live region
+      let liveRegion = document.getElementById(`aria-live-${region}`);
+      if (!liveRegion) {
+        liveRegion = document.createElement('div');
+        liveRegion.id = `aria-live-${region}`;
+        liveRegion.className = 'sr-only';
+        liveRegion.setAttribute('aria-live', 'polite');
+        liveRegion.setAttribute('aria-atomic', 'true');
+        liveRegion.setAttribute('role', 'status');
+        document.body.appendChild(liveRegion);
+      }
+      // Clear previous message (for screen readers to detect change)
+      liveRegion.textContent = '';
+      // Set new message
+      setTimeout(() => {
+        liveRegion.textContent = message;
+      }, 100);
+    },
+  };
+
+  /* --------------------------------------------------------------------------
      Cart Drawer
      -------------------------------------------------------------------------- */
 
@@ -125,8 +151,16 @@
         const cart = await res.json();
         this.refreshDrawer(cart);
         this.updateCartCount(cart.item_count);
+        
+        // Announce cart update to screen readers
+        if (quantity === 0) {
+          A11yAnnouncer.announce('Item removed from cart.');
+        } else {
+          A11yAnnouncer.announce(`Cart updated. ${cart.item_count} item${cart.item_count !== 1 ? 's' : ''} in cart.`);
+        }
       } catch (err) {
         console.error('Cart update failed:', err);
+        A11yAnnouncer.announce('Error updating cart. Please try again.');
       } finally {
         this.isUpdating = false;
       }
@@ -559,6 +593,20 @@
       const url = new URL(window.location.href);
       url.searchParams.set('variant', match.id);
       window.history.replaceState({}, '', url.toString());
+
+      // Announce variant change to screen readers
+      const currency = window.Shopify?.currency?.active || 'USD';
+      const locale   = document.documentElement.lang || 'en';
+      const fmt = (cents) =>
+        new Intl.NumberFormat(locale, { style: 'currency', currency }).format(cents / 100);
+      
+      let announcement = `Variant selected. Price: ${fmt(match.price)}.`;
+      if (!match.available) {
+        announcement += ' This variant is sold out.';
+      } else if (match.compare_at_price && match.compare_at_price > match.price) {
+        announcement += ` Sale price, save ${fmt(match.compare_at_price - match.price)}.`;
+      }
+      A11yAnnouncer.announce(announcement);
     },
   };
 

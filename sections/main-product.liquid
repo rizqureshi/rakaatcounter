@@ -145,6 +145,9 @@
           {%- endif -%}
         </div>
 
+        {%- comment -%} Accessibility: Live region for variant announcements {%- endcomment -%}
+        <div id="product-variant-announcement" class="sr-only" aria-live="polite" aria-atomic="true" role="status"></div>
+
         {%- comment -%} Rating — enable once a reviews app is connected {%- endcomment -%}
         {%- if section.settings.show_rating -%}
           <div class="main-product__rating" id="product-rating-widget">

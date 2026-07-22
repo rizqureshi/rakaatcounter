@@ -6,6 +6,9 @@
     </button>
   </div>
 
+  {%- comment -%} Accessibility: Live region for cart update announcements {%- endcomment -%}
+  <div id="cart-update-announcement" class="sr-only" aria-live="polite" aria-atomic="true" role="status"></div>
+
   <div class="cart-drawer__body" id="cart-drawer-body">
     {%- if cart.item_count > 0 -%}
       <ul class="cart-drawer__items" role="list">
