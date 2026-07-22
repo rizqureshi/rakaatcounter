@@ -6,22 +6,6 @@
   'use strict';
 
   /* --------------------------------------------------------------------------
-     Utility: Debounce Helper
-     -------------------------------------------------------------------------- */
-
-  function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-      const later = () => {
-        clearTimeout(timeout);
-        func(...args);
-      };
-      clearTimeout(timeout);
-      timeout = setTimeout(later, wait);
-    };
-  }
-
-  /* --------------------------------------------------------------------------
      Accessibility: Live Region Announcements
      -------------------------------------------------------------------------- */
 
@@ -56,8 +40,9 @@
     overlay:   null,
     openBtns:  null,
     closeBtns: null,
-    isUpdating: false,
-    updateQueue: null,
+    pendingTimers:  new Map(), // cart item key -> qty debounce timeout id
+    activeRequests: new Set(), // cart item keys with a request in flight
+    queuedQty:      new Map(), // cart item key -> latest qty to send once its in-flight request settles
 
     init() {
       this.drawer   = document.getElementById('cart-drawer');
@@ -88,20 +73,11 @@
         const removeBtn   = e.target.closest('[data-remove-item]');
         const closeBtn    = e.target.closest('[data-close-cart]');
 
-        if (decreaseBtn) this.debouncedUpdateQty(decreaseBtn, -1);
-        if (increaseBtn) this.debouncedUpdateQty(increaseBtn, +1);
-        if (removeBtn)   this.debouncedRemoveItem(removeBtn.dataset.removeItem);
+        if (decreaseBtn) this.stepQty(decreaseBtn, -1);
+        if (increaseBtn) this.stepQty(increaseBtn, +1);
+        if (removeBtn)   this.commitQty(removeBtn.dataset.removeItem, 0);
         if (closeBtn)    { e.preventDefault(); this.close(); }
       });
-
-      // Create debounced versions of update functions (300ms debounce)
-      this.debouncedUpdateQty = debounce((btn, delta) => {
-        this.updateQty(btn, delta);
-      }, 300);
-
-      this.debouncedRemoveItem = debounce((key) => {
-        this.removeItem(key);
-      }, 300);
     },
 
     open() {
@@ -119,28 +95,35 @@
       document.body.style.overflow = '';
     },
 
-    async updateQty(btn, delta) {
-      const item = btn.closest('.cart-item');
-      const key  = item?.dataset.cartItem;
+    stepQty(btn, delta) {
+      const item  = btn.closest('.cart-item');
+      const key   = item?.dataset.cartItem;
       const qtyEl = item?.querySelector('.cart-item__qty-value');
       if (!key || !qtyEl) return;
 
+      // Update the displayed number immediately so repeated rapid clicks
+      // accumulate (e.g. three quick "+" clicks show +3, not +1).
       const newQty = Math.max(0, parseInt(qtyEl.textContent) + delta);
-      await this.updateCartItem(key, newQty);
+      qtyEl.textContent = newQty;
+
+      // Debounce the network request per cart item (not globally) so a
+      // change to one item can't cancel a pending change on another.
+      clearTimeout(this.pendingTimers.get(key));
+      this.pendingTimers.set(key, setTimeout(() => {
+        this.pendingTimers.delete(key);
+        this.commitQty(key, newQty);
+      }, 300));
     },
 
-    async removeItem(key) {
-      await this.updateCartItem(key, 0);
-    },
-
-    async updateCartItem(key, quantity) {
-      // Prevent concurrent requests (race condition protection)
-      if (this.isUpdating) {
-        console.warn('Cart update already in progress, please wait...');
+    async commitQty(key, quantity) {
+      if (this.activeRequests.has(key)) {
+        // A request for this item is already in flight — remember the
+        // latest desired quantity and send it once that request settles.
+        this.queuedQty.set(key, quantity);
         return;
       }
 
-      this.isUpdating = true;
+      this.activeRequests.add(key);
 
       try {
         const res = await fetch('/cart/change.js', {
@@ -151,7 +134,7 @@
         const cart = await res.json();
         await this.refreshDrawer(cart);
         this.updateCartCount(cart.item_count);
-        
+
         // Announce cart update to screen readers (after drawer is refreshed)
         if (quantity === 0) {
           A11yAnnouncer.announce('Item removed from cart.');
@@ -162,7 +145,13 @@
         console.error('Cart update failed:', err);
         A11yAnnouncer.announce('Error updating cart. Please try again.');
       } finally {
-        this.isUpdating = false;
+        this.activeRequests.delete(key);
+
+        const queued = this.queuedQty.get(key);
+        if (queued !== undefined) {
+          this.queuedQty.delete(key);
+          this.commitQty(key, queued);
+        }
       }
     },
 
@@ -271,13 +260,14 @@
           }
         });
 
-      // Quick-add from product cards with debounce
-      let addToCartTimeout;
+      // Quick-add from product cards
       document.addEventListener('click', async (e) => {
         const btn = e.target.closest('.product-card__add-btn');
         if (!btn) return;
 
-        // Prevent rapid clicks
+        // Disabling the button synchronously below already prevents
+        // rapid-fire requests for this button — no debounce needed, and a
+        // shared debounce here would cancel a different card's in-flight add.
         if (btn.disabled) return;
 
         const id = btn.dataset.productId;
@@ -286,32 +276,27 @@
         btn.disabled    = true;
         btn.textContent = '...';
 
-        // Debounce rapid button clicks (prevent multiple simultaneous requests)
-        clearTimeout(addToCartTimeout);
-        
-        addToCartTimeout = setTimeout(async () => {
-          try {
-            const res = await fetch('/cart/add.js', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ id, quantity: 1 }),
-            });
-            if (res.ok) {
-              const cartRes = await fetch('/cart.js');
-              const cart    = await cartRes.json();
-              CartDrawer.updateCartCount(cart.item_count);
-              await CartDrawer.refreshDrawer(cart);
-              CartDrawer.open();
-            } else {
-              showAtcError('Unable to add this item to cart. Please try again.', btn);
-            }
-          } catch (err) {
+        try {
+          const res = await fetch('/cart/add.js', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id, quantity: 1 }),
+          });
+          if (res.ok) {
+            const cartRes = await fetch('/cart.js');
+            const cart    = await cartRes.json();
+            CartDrawer.updateCartCount(cart.item_count);
+            await CartDrawer.refreshDrawer(cart);
+            CartDrawer.open();
+          } else {
             showAtcError('Unable to add this item to cart. Please try again.', btn);
-          } finally {
-            btn.disabled    = false;
-            btn.textContent = 'Add to Cart';
           }
-        }, 300); // 300ms debounce to prevent rapid-fire requests
+        } catch (err) {
+          showAtcError('Unable to add this item to cart. Please try again.', btn);
+        } finally {
+          btn.disabled    = false;
+          btn.textContent = 'Add to Cart';
+        }
       });
     },
   };
