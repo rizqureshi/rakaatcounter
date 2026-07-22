@@ -149,10 +149,10 @@
           body: JSON.stringify({ id: key, quantity }),
         });
         const cart = await res.json();
-        this.refreshDrawer(cart);
+        await this.refreshDrawer(cart);
         this.updateCartCount(cart.item_count);
         
-        // Announce cart update to screen readers
+        // Announce cart update to screen readers (after drawer is refreshed)
         if (quantity === 0) {
           A11yAnnouncer.announce('Item removed from cart.');
         } else {
@@ -175,13 +175,30 @@
 
     async refreshDrawer(cart) {
       try {
-        const res  = await fetch('/?section_id=cart-drawer');
-        const html = await res.text();
-        const doc  = new DOMParser().parseFromString(html, 'text/html');
-        const body = doc.getElementById('cart-drawer');
-        if (body && this.drawer) {
-          this.drawer.innerHTML = body.innerHTML;
+        const res = await fetch('/?section_id=cart-drawer');
+        
+        if (!res.ok) {
+          throw new Error(`Failed to fetch cart drawer: ${res.status}`);
         }
+        
+        const html = await res.text();
+        
+        // Parse the HTML response
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        
+        // Find the cart drawer section in the parsed HTML
+        const newDrawer = doc.getElementById('cart-drawer');
+        
+        if (!newDrawer || !this.drawer) {
+          console.warn('Could not find cart drawer elements for refresh');
+          return;
+        }
+        
+        // Replace the drawer's content with the fresh HTML
+        this.drawer.innerHTML = newDrawer.innerHTML;
+        
+        console.log('Cart drawer refreshed successfully');
       } catch (err) {
         console.error('Cart drawer refresh failed:', err);
       }
